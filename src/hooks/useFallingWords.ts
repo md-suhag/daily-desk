@@ -39,18 +39,39 @@ function createInitialFallingState(): FallingWordsState {
   };
 }
 
+function createFallingWord(level: number): FallingWord {
+  const now = performance.now();
+  const text = getRandomFallingWord(level);
+  const xPercent = Math.floor(Math.random() * 70) + 10;
+  const diffConfig = getDifficultyConfigForLevel(level);
+
+  return {
+    id: `falling-${now}-${Math.random().toString(36).substring(2, 6)}`,
+    text,
+    xPercent,
+    yPercent: 0,
+    speed: diffConfig.baseSpeed,
+    isTargeted: false,
+    matchedCharsCount: 0,
+  };
+}
+
 function fallingReducer(state: FallingWordsState, action: FallingAction): FallingWordsState {
   switch (action.type) {
-    case 'START_GAME':
+    case 'START_GAME': {
+      const now = performance.now();
+      const firstWord = createFallingWord(1);
       return {
         ...createInitialFallingState(),
         status: 'PLAYING',
-        lastSpawnTime: performance.now(),
+        words: [firstWord],
+        lastSpawnTime: now,
         rawMetrics: {
           ...createInitialFallingState().rawMetrics,
-          startTime: performance.now(),
+          startTime: now,
         },
       };
+    }
 
     case 'PAUSE':
       if (state.status !== 'PLAYING') return state;
@@ -81,7 +102,6 @@ function fallingReducer(state: FallingWordsState, action: FallingAction): Fallin
       let matchedWordId: string | null = null;
       let isCorrectInput = false;
 
-      // Check if typed sequence matches any currently falling word prefix
       const updatedWords = state.words.map((word) => {
         if (word.text.startsWith(newTyped)) {
           isCorrectInput = true;
@@ -96,7 +116,6 @@ function fallingReducer(state: FallingWordsState, action: FallingAction): Fallin
       const newCorrectTyped = state.rawMetrics.correctCharsTyped + (isCorrectInput ? 1 : 0);
       const newIncorrectTyped = state.rawMetrics.incorrectCharsTyped + (isCorrectInput ? 0 : 1);
 
-      // Duration for live WPM calculation
       const durationSec = state.rawMetrics.startTime
         ? (performance.now() - state.rawMetrics.startTime) / 1000
         : 0;
@@ -104,7 +123,6 @@ function fallingReducer(state: FallingWordsState, action: FallingAction): Fallin
       const { grossWPM, netWPM } = calculateWPM(newTotalTyped, 0, durationSec);
       const accuracy = calculateAccuracy(newCorrectTyped, newTotalTyped);
 
-      // If a word was completely typed and cleared
       if (matchedWordId) {
         const wordObj = state.words.find((w) => w.id === matchedWordId);
         const wordLength = wordObj ? wordObj.text.length : 5;
@@ -113,7 +131,6 @@ function fallingReducer(state: FallingWordsState, action: FallingAction): Fallin
         const remainingWords = updatedWords.filter((w) => w.id !== matchedWordId);
         const newClearedCount = state.wordsCleared + 1;
 
-        // Check if difficulty should adapt after clearing words
         const nextLevel = calculateNextAdaptiveLevel(
           state.adaptiveLevel,
           newClearedCount,
@@ -125,7 +142,7 @@ function fallingReducer(state: FallingWordsState, action: FallingAction): Fallin
           ...state,
           score: state.score + addedScore,
           wordsCleared: newClearedCount,
-          activeInput: '', // clear buffer on word completion
+          activeInput: '',
           words: remainingWords.map((w) => ({ ...w, isTargeted: false, matchedCharsCount: 0 })),
           adaptiveLevel: nextLevel,
           rawMetrics: {
@@ -143,7 +160,6 @@ function fallingReducer(state: FallingWordsState, action: FallingAction): Fallin
         };
       }
 
-      // If typed input is valid prefix
       if (isCorrectInput) {
         return {
           ...state,
@@ -164,7 +180,6 @@ function fallingReducer(state: FallingWordsState, action: FallingAction): Fallin
         };
       }
 
-      // Wrong character typed -> resets active target selection and input buffer
       return {
         ...state,
         activeInput: '',
@@ -197,13 +212,12 @@ function fallingReducer(state: FallingWordsState, action: FallingAction): Fallin
       const { deltaSeconds, maxSpeedMultiplier } = action.payload;
       const missedWordIds: string[] = [];
 
-      // Advance word positions
       const nextWords = state.words
         .map((word) => {
           const nextY = word.yPercent + word.speed * deltaSeconds * maxSpeedMultiplier;
-          if (nextY >= 95) {
+          if (nextY >= 92) {
             missedWordIds.push(word.id);
-            return null; // Word hit bottom
+            return null;
           }
           return { ...word, yPercent: nextY };
         })
@@ -213,7 +227,6 @@ function fallingReducer(state: FallingWordsState, action: FallingAction): Fallin
         return { ...state, words: nextWords };
       }
 
-      // Handle missed words / lost lives
       const newLives = Math.max(0, state.lives - missedWordIds.length);
       const isGameOver = newLives <= 0;
 
@@ -276,34 +289,31 @@ export function useFallingWords() {
   const [state, dispatch] = useReducer(fallingReducer, undefined, createInitialFallingState);
   const animationFrameRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number>(0);
+  const stateRef = useRef(state);
+  stateRef.current = state;
 
-  // Spawner loop
+  // Spawner loop interval check
   useEffect(() => {
     if (state.status !== 'PLAYING') return;
 
-    const diffConfig = getDifficultyConfigForLevel(state.adaptiveLevel);
-    const now = performance.now();
+    const spawnerTimer = setInterval(() => {
+      const currentState = stateRef.current;
+      if (currentState.status !== 'PLAYING') return;
 
-    if (
-      now - state.lastSpawnTime >= diffConfig.spawnIntervalMs &&
-      state.words.length < diffConfig.maxActiveWords
-    ) {
-      const text = getRandomFallingWord(state.adaptiveLevel);
-      // Random x position between 10% and 80%
-      const xPercent = Math.floor(Math.random() * 70) + 10;
-      const newWord: FallingWord = {
-        id: `falling-${now}-${Math.random().toString(36).substring(2, 6)}`,
-        text,
-        xPercent,
-        yPercent: 0,
-        speed: diffConfig.baseSpeed,
-        isTargeted: false,
-        matchedCharsCount: 0,
-      };
+      const diffConfig = getDifficultyConfigForLevel(currentState.adaptiveLevel);
+      const now = performance.now();
 
-      dispatch({ type: 'SPAWN_WORD', payload: newWord });
-    }
-  }, [state.status, state.words.length, state.adaptiveLevel, state.lastSpawnTime]);
+      if (
+        now - currentState.lastSpawnTime >= diffConfig.spawnIntervalMs &&
+        currentState.words.length < diffConfig.maxActiveWords
+      ) {
+        const newWord = createFallingWord(currentState.adaptiveLevel);
+        dispatch({ type: 'SPAWN_WORD', payload: newWord });
+      }
+    }, 200);
+
+    return () => clearInterval(spawnerTimer);
+  }, [state.status]);
 
   // High performance animation frame loop
   useEffect(() => {
@@ -315,17 +325,21 @@ export function useFallingWords() {
       return;
     }
 
-    lastTimeRef.current = performance.now();
+    lastTimeRef.current = 0;
 
     const loop = (currentTime: number) => {
-      const deltaSeconds = (currentTime - lastTimeRef.current) / 1000;
+      if (!lastTimeRef.current) {
+        lastTimeRef.current = currentTime;
+      }
+      const deltaSeconds = Math.min(0.1, (currentTime - lastTimeRef.current) / 1000);
       lastTimeRef.current = currentTime;
 
-      // Update falling positions
-      dispatch({
-        type: 'UPDATE_POSITIONS',
-        payload: { deltaSeconds, maxSpeedMultiplier: 1.0 },
-      });
+      if (deltaSeconds > 0) {
+        dispatch({
+          type: 'UPDATE_POSITIONS',
+          payload: { deltaSeconds, maxSpeedMultiplier: 1.0 },
+        });
+      }
 
       animationFrameRef.current = requestAnimationFrame(loop);
     };
@@ -344,16 +358,19 @@ export function useFallingWords() {
     (e: KeyboardEvent) => {
       if (e.ctrlKey || e.altKey || e.metaKey) return;
 
-      if (state.status === 'IDLE' && (e.key === 'Enter' || e.key === ' ')) {
-        e.preventDefault();
-        dispatch({ type: 'START_GAME' });
-        return;
-      }
-
-      if (state.status === 'GAME_OVER' && e.key === 'Enter') {
-        e.preventDefault();
-        dispatch({ type: 'START_GAME' });
-        return;
+      // Auto-start on any keypress if IDLE or GAME_OVER
+      if (state.status === 'IDLE' || state.status === 'GAME_OVER') {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          dispatch({ type: 'START_GAME' });
+          return;
+        }
+        if (e.key.length === 1) {
+          e.preventDefault();
+          dispatch({ type: 'START_GAME' });
+          dispatch({ type: 'TYPE_CHAR', payload: e.key.toLowerCase() });
+          return;
+        }
       }
 
       if (state.status !== 'PLAYING') return;

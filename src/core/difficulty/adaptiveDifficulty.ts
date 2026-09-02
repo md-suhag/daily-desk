@@ -5,18 +5,18 @@
 
 export interface DifficultyConfig {
   spawnIntervalMs: number; // Interval between spawning new falling words
-  baseSpeed: number;        // Drop speed percentage per second (e.g. 5% to 20% of screen height per sec)
+  baseSpeed: number;        // Drop speed percentage per second (e.g. 14% to 35% of screen height per sec)
   maxActiveWords: number;   // Maximum concurrent falling words allowed on stage
 }
 
 export function getDifficultyConfigForLevel(adaptiveLevel: number): DifficultyConfig {
   const clampedLevel = Math.max(1, Math.min(10, adaptiveLevel));
   
-  // Level 1: 3000ms spawn, 4% speed/sec, max 3 words
-  // Level 10: 1200ms spawn, 14% speed/sec, max 7 words
-  const spawnIntervalMs = Math.max(1200, 3200 - clampedLevel * 200);
-  const baseSpeed = 4.0 + clampedLevel * 1.0;
-  const maxActiveWords = Math.min(8, 3 + Math.floor(clampedLevel / 2));
+  // Level 1: 2800ms spawn interval, 14% drop speed/sec (~6.5s to reach bottom), max 3 words
+  // Level 10: 1200ms spawn interval, 32% drop speed/sec (~2.8s to reach bottom), max 7 words
+  const spawnIntervalMs = Math.max(1100, 2800 - clampedLevel * 170);
+  const baseSpeed = 12.0 + clampedLevel * 2.0;
+  const maxActiveWords = Math.min(7, 2 + Math.floor(clampedLevel / 2));
 
   return {
     spawnIntervalMs,

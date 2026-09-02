@@ -83,7 +83,12 @@ export default function FallingWordsPage() {
       />
 
       {/* 60fps Falling Stage Arena */}
-      <FallingStage words={state.words} activeInput={state.activeInput} />
+      <FallingStage
+        words={state.words}
+        activeInput={state.activeInput}
+        status={state.status}
+        onStart={startGame}
+      />
 
       {/* Active Keyed Buffer Indicator */}
       <InputBufferDisplay

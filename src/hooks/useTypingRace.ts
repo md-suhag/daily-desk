@@ -98,7 +98,6 @@ function raceReducer(state: RaceState, action: RaceAction): RaceState {
         ? (timestamp - state.rawMetrics.startTime) / 1000
         : 0;
 
-      // Count uncorrected errors currently in typed input
       let uncorrectedErrors = 0;
       for (let i = 0; i < newTypedInput.length; i++) {
         if (newTypedInput[i] !== state.targetText[i]) {
@@ -243,7 +242,7 @@ export function useTypingRace(initialDifficulty: DifficultyLevel = 'EASY') {
     };
   }, [state.status]);
 
-  // Regular metrics tick timer (updates duration and WPM smooth every second)
+  // Metrics tick timer
   useEffect(() => {
     if (state.status === 'PLAYING') {
       metricsTimerRef.current = setInterval(() => {
@@ -262,13 +261,15 @@ export function useTypingRace(initialDifficulty: DifficultyLevel = 'EASY') {
   // Global Keyboard listener
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      // Ignore modifier combinations (Ctrl, Alt, Meta)
       if (e.ctrlKey || e.altKey || e.metaKey) return;
 
-      if (state.status === 'IDLE' && (e.key === 'Enter' || e.key === ' ')) {
-        e.preventDefault();
-        dispatch({ type: 'START_COUNTDOWN' });
-        return;
+      // Auto start countdown on keypress if IDLE
+      if (state.status === 'IDLE') {
+        if (e.key === 'Enter' || e.key === ' ' || e.key.length === 1) {
+          e.preventDefault();
+          dispatch({ type: 'START_COUNTDOWN' });
+          return;
+        }
       }
 
       if (state.status === 'COMPLETED' && e.key === 'Enter') {

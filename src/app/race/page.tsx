@@ -102,6 +102,8 @@ export default function TypingRacePage() {
           targetText={state.targetText}
           typedInput={state.typedInput}
           cursorIndex={state.cursorIndex}
+          status={state.status}
+          onStart={startRace}
           isFocused={state.status === 'PLAYING'}
         />
       )}

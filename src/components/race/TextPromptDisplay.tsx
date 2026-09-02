@@ -2,11 +2,15 @@
 
 import React, { useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { GameStatus } from '@/types/game';
+import { Play } from 'lucide-react';
 
 export interface TextPromptDisplayProps {
   targetText: string;
   typedInput: string;
   cursorIndex: number;
+  status: GameStatus;
+  onStart: () => void;
   isFocused?: boolean;
 }
 
@@ -14,6 +18,8 @@ export function TextPromptDisplay({
   targetText,
   typedInput,
   cursorIndex,
+  status,
+  onStart,
   isFocused = true,
 }: TextPromptDisplayProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,13 +44,25 @@ export function TextPromptDisplay({
   return (
     <div
       ref={containerRef}
+      onClick={status === 'IDLE' ? onStart : undefined}
       className={cn(
         'relative min-h-[140px] max-h-[220px] overflow-y-auto rounded-2xl border bg-card/90 p-6 shadow-inner font-mono text-xl sm:text-2xl leading-relaxed tracking-wide transition-all duration-200 select-none',
+        status === 'IDLE' ? 'cursor-pointer hover:border-primary/50' : '',
         isFocused ? 'border-primary/60 ring-2 ring-primary/20' : 'border-border'
       )}
       tabIndex={0}
       aria-label="Typing text prompt"
     >
+      {/* Click / Key start banner when IDLE */}
+      {status === 'IDLE' && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/80 backdrop-blur-xs p-4 text-center rounded-2xl">
+          <div className="flex items-center gap-2 font-sans text-base font-bold text-primary">
+            <Play className="h-5 w-5" />
+            <span>Click prompt or press any key / Enter to Start Race</span>
+          </div>
+        </div>
+      )}
+
       {targetText.split('').map((char, idx) => {
         const isTyped = idx < typedInput.length;
         const isCurrent = idx === cursorIndex;
