@@ -14,9 +14,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'KeyForge | Advanced Typing Skill Platform',
-  description: 'Master touch typing with interactive Typing Race and adaptive Falling Words games.',
-  keywords: ['typing game', 'wpm test', 'typing speed', 'keyboard skills', 'nextjs'],
+  title: 'DailyDesk | Ultimate Daily Productivity & Skills Platform',
+  description: 'DailyDesk is an all-in-one productivity suite for daily skills, career building, typing mastery, and performance utilities.',
+  keywords: ['DailyDesk', 'productivity tools', 'typing speed', 'career tools', 'developer tools', 'nextjs'],
 };
 
 export default function RootLayout({
@@ -32,7 +32,7 @@ export default function RootLayout({
           {children}
         </main>
         <footer className="border-t border-border/40 py-6 text-center text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} KeyForge Typing Platform. All typing logic computed locally.</p>
+          <p>© {new Date().getFullYear()} DailyDesk Platform. Designed for daily productivity & skill growth.</p>
         </footer>
       </body>
     </html>

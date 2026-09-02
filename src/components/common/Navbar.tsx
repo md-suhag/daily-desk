@@ -3,14 +3,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Keyboard, Flag, Flame, Trophy } from 'lucide-react';
+import { LayoutGrid, Flag, Flame } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function Navbar() {
   const pathname = usePathname();
 
   const navItems = [
-    { href: '/', label: 'Hub', icon: Keyboard },
+    { href: '/', label: 'Hub', icon: LayoutGrid },
     { href: '/race', label: 'Typing Race', icon: Flag },
     { href: '/falling', label: 'Falling Words', icon: Flame },
   ];
@@ -21,13 +21,10 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight text-foreground hover:opacity-90 transition-opacity">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md glow-primary">
-            <Keyboard className="h-5 w-5" />
+            <LayoutGrid className="h-5 w-5" />
           </div>
           <span className="bg-gradient-to-r from-foreground via-foreground to-primary bg-clip-text text-transparent">
-            KeyForge
-          </span>
-          <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-secondary text-primary font-semibold border border-primary/20">
-            MVP
+            DailyDesk
           </span>
         </Link>
 
