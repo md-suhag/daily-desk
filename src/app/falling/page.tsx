@@ -1,22 +1,29 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useFallingWords } from '@/hooks/useFallingWords';
 import { useGameStats } from '@/hooks/useGameStats';
 import { FallingHeader } from '@/components/falling/FallingHeader';
 import { FallingStage } from '@/components/falling/FallingStage';
 import { InputBufferDisplay } from '@/components/falling/InputBufferDisplay';
 import { FallingResultsModal } from '@/components/falling/FallingResultsModal';
+import { MobileInputHandler, MobileInputHandlerRef } from '@/components/common/MobileInputHandler';
 import { generatePerformanceFeedback } from '@/core/engine/calculations';
 import { GameResultHistory, PerformanceFeedback } from '@/types/game';
 import confetti from 'canvas-confetti';
 
 export default function FallingWordsPage() {
-  const { state, startGame, pauseGame, resumeGame, restartGame } = useFallingWords();
+  const { state, startGame, pauseGame, resumeGame, restartGame, typeChar, clearInput } =
+    useFallingWords();
+  const mobileInputRef = useRef<MobileInputHandlerRef>(null);
   const { stats, recordResult } = useGameStats();
 
   const [feedback, setFeedback] = useState<PerformanceFeedback | null>(null);
   const [hasRecorded, setHasRecorded] = useState(false);
+
+  const focusMobileInput = () => {
+    mobileInputRef.current?.focus();
+  };
 
   // Trigger result processing when state transitions to GAME_OVER
   useEffect(() => {
@@ -88,12 +95,24 @@ export default function FallingWordsPage() {
         activeInput={state.activeInput}
         status={state.status}
         onStart={startGame}
+        onClickStage={focusMobileInput}
+      />
+
+      {/* Mobile Soft Keyboard Trigger Handler */}
+      <MobileInputHandler
+        ref={mobileInputRef}
+        status={state.status}
+        onTypeChar={typeChar}
+        onBackspace={clearInput}
+        onEscape={pauseGame}
       />
 
       {/* Active Keyed Buffer Indicator */}
       <InputBufferDisplay
         activeInput={state.activeInput}
         isFocused={state.status === 'PLAYING'}
+        onClearInput={clearInput}
+        onClickContainer={focusMobileInput}
       />
 
       {/* End Game Modal */}
@@ -114,3 +133,4 @@ export default function FallingWordsPage() {
     </div>
   );
 }
+

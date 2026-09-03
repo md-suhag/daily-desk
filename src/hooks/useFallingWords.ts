@@ -406,11 +406,33 @@ export function useFallingWords() {
   const resumeGame = () => dispatch({ type: 'RESUME' });
   const restartGame = () => dispatch({ type: 'RESTART' });
 
+  const typeChar = useCallback(
+    (char: string) => {
+      if (state.status === 'IDLE' || state.status === 'GAME_OVER') {
+        dispatch({ type: 'START_GAME' });
+        dispatch({ type: 'TYPE_CHAR', payload: char.toLowerCase() });
+        return;
+      }
+      if (state.status === 'PLAYING') {
+        dispatch({ type: 'TYPE_CHAR', payload: char.toLowerCase() });
+      }
+    },
+    [state.status]
+  );
+
+  const clearInput = useCallback(() => {
+    if (state.status === 'PLAYING') {
+      dispatch({ type: 'CLEAR_INPUT' });
+    }
+  }, [state.status]);
+
   return {
     state,
     startGame,
     pauseGame,
     resumeGame,
     restartGame,
+    typeChar,
+    clearInput,
   };
 }

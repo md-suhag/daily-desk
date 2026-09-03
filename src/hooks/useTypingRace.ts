@@ -315,6 +315,28 @@ export function useTypingRace(initialDifficulty: DifficultyLevel = 'EASY') {
   const resumeRace = () => dispatch({ type: 'RESUME' });
   const restartRace = () => dispatch({ type: 'RESTART' });
 
+  const typeChar = useCallback(
+    (char: string) => {
+      if (state.status === 'IDLE') {
+        dispatch({ type: 'START_COUNTDOWN' });
+        return;
+      }
+      if (state.status === 'PLAYING') {
+        dispatch({
+          type: 'TYPE_CHAR',
+          payload: { char, timestamp: performance.now() },
+        });
+      }
+    },
+    [state.status]
+  );
+
+  const backspace = useCallback(() => {
+    if (state.status === 'PLAYING') {
+      dispatch({ type: 'BACKSPACE' });
+    }
+  }, [state.status]);
+
   const progressPercentage = Math.min(
     100,
     Math.round((state.cursorIndex / (state.targetText.length || 1)) * 100)
@@ -328,5 +350,8 @@ export function useTypingRace(initialDifficulty: DifficultyLevel = 'EASY') {
     pauseRace,
     resumeRace,
     restartRace,
+    typeChar,
+    backspace,
   };
 }
+

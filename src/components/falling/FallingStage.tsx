@@ -11,15 +11,26 @@ export interface FallingStageProps {
   activeInput: string;
   status: GameStatus;
   onStart: () => void;
+  onClickStage?: () => void;
 }
 
-export function FallingStage({ words, activeInput, status, onStart }: FallingStageProps) {
+export function FallingStage({ words, activeInput, status, onStart, onClickStage }: FallingStageProps) {
+  const handleClick = () => {
+    if (status === 'IDLE') {
+      onStart();
+    }
+    if (onClickStage) {
+      onClickStage();
+    }
+  };
+
   return (
     <div
-      onClick={status === 'IDLE' ? onStart : undefined}
+      onClick={handleClick}
+      onTouchStart={handleClick}
       className={cn(
-        'relative w-full h-[400px] xs:h-[450px] sm:h-[540px] rounded-3xl border border-border bg-card overflow-hidden shadow-sm select-none flex flex-col justify-between transition-colors duration-200',
-        status === 'IDLE' ? 'cursor-pointer hover:border-[#F39C12]/50' : ''
+        'relative w-full h-[400px] xs:h-[450px] sm:h-[540px] rounded-3xl border border-border bg-card overflow-hidden shadow-sm select-none flex flex-col justify-between transition-colors duration-200 cursor-pointer',
+        status === 'IDLE' ? 'hover:border-[#F39C12]/50' : ''
       )}
     >
       {/* Background Grid Pattern */}

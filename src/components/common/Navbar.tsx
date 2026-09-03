@@ -55,9 +55,6 @@ export function Navbar() {
               </span>
               <span className="h-1.5 w-1.5 rounded-full bg-[#F39C12] animate-pulse" />
             </div>
-            <span className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground hidden sm:inline-block">
-              Skill & Productivity
-            </span>
           </div>
         </Link>
 

@@ -12,6 +12,7 @@ export interface TextPromptDisplayProps {
   status: GameStatus;
   onStart: () => void;
   isFocused?: boolean;
+  onClickContainer?: () => void;
 }
 
 export function TextPromptDisplay({
@@ -21,6 +22,7 @@ export function TextPromptDisplay({
   status,
   onStart,
   isFocused = true,
+  onClickContainer,
 }: TextPromptDisplayProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const activeCharRef = useRef<HTMLSpanElement>(null);
@@ -41,13 +43,23 @@ export function TextPromptDisplay({
     }
   }, [cursorIndex]);
 
+  const handleClick = () => {
+    if (status === 'IDLE') {
+      onStart();
+    }
+    if (onClickContainer) {
+      onClickContainer();
+    }
+  };
+
   return (
     <div
       ref={containerRef}
-      onClick={status === 'IDLE' ? onStart : undefined}
+      onClick={handleClick}
+      onTouchStart={handleClick}
       className={cn(
-        'relative min-h-[150px] sm:min-h-[180px] max-h-[260px] overflow-y-auto rounded-3xl border bg-card p-6 sm:p-8 shadow-sm font-mono text-lg sm:text-2xl md:text-3xl leading-relaxed tracking-wide transition-all duration-200 select-none break-words',
-        status === 'IDLE' ? 'cursor-pointer hover:border-[#F39C12]' : '',
+        'relative min-h-[150px] sm:min-h-[180px] max-h-[260px] overflow-y-auto rounded-3xl border bg-card p-6 sm:p-8 shadow-sm font-mono text-lg sm:text-2xl md:text-3xl leading-relaxed tracking-wide transition-all duration-200 select-none break-words cursor-pointer',
+        status === 'IDLE' ? 'hover:border-[#F39C12]' : '',
         isFocused ? 'border-[#F39C12] ring-2 ring-[#F39C12]/20' : 'border-border'
       )}
       tabIndex={0}

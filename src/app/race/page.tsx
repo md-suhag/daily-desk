@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTypingRace } from '@/hooks/useTypingRace';
 import { useGameStats } from '@/hooks/useGameStats';
 import { RaceHeader } from '@/components/race/RaceHeader';
@@ -8,6 +8,7 @@ import { RaceTrack } from '@/components/race/RaceTrack';
 import { TextPromptDisplay } from '@/components/race/TextPromptDisplay';
 import { StatCard } from '@/components/common/StatCard';
 import { RaceResultsModal } from '@/components/race/RaceResultsModal';
+import { MobileInputHandler, MobileInputHandlerRef } from '@/components/common/MobileInputHandler';
 import { generatePerformanceFeedback } from '@/core/engine/calculations';
 import { GameResultHistory, PerformanceFeedback } from '@/types/game';
 import { Zap, Target, AlertTriangle, Clock } from 'lucide-react';
@@ -22,12 +23,19 @@ export default function TypingRacePage() {
     pauseRace,
     resumeRace,
     restartRace,
+    typeChar,
+    backspace,
   } = useTypingRace('EASY');
 
+  const mobileInputRef = useRef<MobileInputHandlerRef>(null);
   const { stats, recordResult } = useGameStats();
 
   const [feedback, setFeedback] = useState<PerformanceFeedback | null>(null);
   const [hasRecorded, setHasRecorded] = useState(false);
+
+  const focusMobileInput = () => {
+    mobileInputRef.current?.focus();
+  };
 
   // Trigger result processing and record score when state transitions to COMPLETED
   useEffect(() => {
@@ -98,14 +106,25 @@ export default function TypingRacePage() {
 
       {/* Typing Text Prompt Display */}
       {state.status !== 'COUNTDOWN' && (
-        <TextPromptDisplay
-          targetText={state.targetText}
-          typedInput={state.typedInput}
-          cursorIndex={state.cursorIndex}
-          status={state.status}
-          onStart={startRace}
-          isFocused={state.status === 'PLAYING'}
-        />
+        <>
+          <TextPromptDisplay
+            targetText={state.targetText}
+            typedInput={state.typedInput}
+            cursorIndex={state.cursorIndex}
+            status={state.status}
+            onStart={startRace}
+            isFocused={state.status === 'PLAYING'}
+            onClickContainer={focusMobileInput}
+          />
+
+          <MobileInputHandler
+            ref={mobileInputRef}
+            status={state.status}
+            onTypeChar={typeChar}
+            onBackspace={backspace}
+            onEscape={pauseRace}
+          />
+        </>
       )}
 
       {/* Real-time HUD Metrics Bar */}
