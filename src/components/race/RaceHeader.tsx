@@ -32,28 +32,28 @@ export function RaceHeader({
   ];
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5 shadow-sm">
+    <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between rounded-3xl border border-[#E5E7EB] bg-white p-5 sm:p-7 shadow-sm">
       {/* Mode & Difficulty Selector */}
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 flex-wrap">
-          <h1 className="text-lg sm:text-xl font-extrabold tracking-tight text-[#111827]">Typing Race</h1>
-          <Badge variant={status === 'PLAYING' ? 'success' : status === 'PAUSED' ? 'warning' : 'primary'}>
+        <div className="flex items-center gap-3 flex-wrap">
+          <h1 className="text-xl sm:text-3xl font-black tracking-tight text-[#111827]">Typing Race</h1>
+          <Badge variant={status === 'PLAYING' ? 'success' : status === 'PAUSED' ? 'warning' : 'primary'} className="px-3 py-1 text-xs font-bold">
             {status}
           </Badge>
         </div>
-        <p className="text-xs text-[#64748B]">
+        <p className="text-xs sm:text-sm text-[#64748B]">
           Type the prompt accurately. Content complexity increases with difficulty.
         </p>
 
-        <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+        <div className="flex items-center gap-2 mt-1 flex-wrap">
           {difficulties.map((d) => (
             <button
               key={d.level}
               onClick={() => onSelectDifficulty(d.level)}
               disabled={status === 'PLAYING' || status === 'COUNTDOWN'}
-              className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-150 ${
+              className={`px-4 py-1.5 text-xs sm:text-sm font-bold rounded-xl transition-all duration-150 ${
                 difficulty === d.level
-                  ? 'bg-[#F39C12] text-white shadow-xs'
+                  ? 'bg-[#F39C12] text-white shadow-xs scale-[1.02]'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               } disabled:opacity-50 disabled:cursor-not-allowed`}
               title={d.desc}
@@ -65,27 +65,27 @@ export function RaceHeader({
       </div>
 
       {/* Action Controls */}
-      <div className="flex items-center gap-2 flex-wrap w-full sm:w-auto">
+      <div className="flex items-center gap-2.5 flex-wrap w-full sm:w-auto mt-2 sm:mt-0">
         {status === 'IDLE' && (
-          <Button onClick={onStart} variant="primary" size="md" glow className="w-full sm:w-auto">
-            <Play className="h-4 w-4" /> Start Race (Enter)
+          <Button onClick={onStart} variant="primary" size="lg" className="w-full sm:w-auto bg-[#F39C12] hover:bg-[#D68910] text-white font-black px-6 py-3 text-base shadow-sm">
+            <Play className="h-4 w-4 fill-white" /> Start Race (Enter)
           </Button>
         )}
 
         {status === 'PLAYING' && (
-          <Button onClick={onPause} variant="outline" size="md" className="flex-1 sm:flex-none">
+          <Button onClick={onPause} variant="outline" size="lg" className="flex-1 sm:flex-none font-bold">
             <Pause className="h-4 w-4" /> Pause (Esc)
           </Button>
         )}
 
         {status === 'PAUSED' && (
-          <Button onClick={onResume} variant="primary" size="md" className="flex-1 sm:flex-none">
-            <Play className="h-4 w-4" /> Resume
+          <Button onClick={onResume} variant="primary" size="lg" className="flex-1 sm:flex-none bg-[#F39C12] hover:bg-[#D68910] text-white font-black">
+            <Play className="h-4 w-4 fill-white" /> Resume
           </Button>
         )}
 
         {(status === 'PLAYING' || status === 'PAUSED' || status === 'COMPLETED') && (
-          <Button onClick={onRestart} variant="secondary" size="md" className="flex-1 sm:flex-none">
+          <Button onClick={onRestart} variant="secondary" size="lg" className="flex-1 sm:flex-none font-bold">
             <RotateCcw className="h-4 w-4" /> Restart
           </Button>
         )}

@@ -46,9 +46,9 @@ export function TextPromptDisplay({
       ref={containerRef}
       onClick={status === 'IDLE' ? onStart : undefined}
       className={cn(
-        'relative min-h-[130px] sm:min-h-[150px] max-h-[220px] overflow-y-auto rounded-2xl border bg-white p-4 sm:p-6 shadow-sm font-mono text-base sm:text-xl md:text-2xl leading-relaxed tracking-wide transition-all duration-200 select-none break-words',
+        'relative min-h-[150px] sm:min-h-[180px] max-h-[260px] overflow-y-auto rounded-3xl border bg-white p-6 sm:p-8 shadow-sm font-mono text-lg sm:text-2xl md:text-3xl leading-relaxed tracking-wide transition-all duration-200 select-none break-words',
         status === 'IDLE' ? 'cursor-pointer hover:border-amber-400' : '',
-        isFocused ? 'border-amber-500 ring-2 ring-amber-500/20' : 'border-border'
+        isFocused ? 'border-[#F39C12] ring-2 ring-[#F39C12]/20' : 'border-[#E5E7EB]'
       )}
       tabIndex={0}
       aria-label="Typing text prompt"

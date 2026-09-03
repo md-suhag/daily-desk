@@ -40,7 +40,7 @@ export default function RootLayout({
         </div>
 
         <Navbar />
-        <main className="flex-1 container mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 max-w-6xl relative z-10">
+        <main className="flex-1 container mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-10 max-w-7xl relative z-10">
           {children}
         </main>
         <footer className="border-t border-border/80 py-6 text-center text-xs text-muted-foreground relative z-10 bg-white/70 backdrop-blur-xs">

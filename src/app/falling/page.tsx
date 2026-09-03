@@ -67,7 +67,7 @@ export default function FallingWordsPage() {
   };
 
   return (
-    <div className="flex flex-col gap-4 sm:gap-6 max-w-4xl mx-auto">
+    <div className="flex flex-col gap-6 sm:gap-8 max-w-5xl mx-auto py-2 sm:py-6">
       {/* Falling Control Header */}
       <FallingHeader
         status={state.status}

@@ -13,7 +13,7 @@ export function InputBufferDisplay({ activeInput, isFocused = true }: InputBuffe
   return (
     <div
       className={cn(
-        'flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm font-mono transition-all duration-200',
+        'flex items-center justify-between rounded-2xl border bg-white p-5 shadow-sm font-mono transition-all duration-200',
         isFocused ? 'border-[#F39C12] ring-2 ring-[#F39C12]/20' : 'border-[#E5E7EB]'
       )}
     >

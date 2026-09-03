@@ -164,27 +164,27 @@ export function RaceTrack({ progressPercentage, wpm, className }: RaceTrackProps
   const isMoving = wpm > 0 && clampedProgress > 0 && clampedProgress < 100;
 
   return (
-    <div className={cn('flex flex-col gap-3 rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5 shadow-sm', className)}>
+    <div className={cn('flex flex-col gap-4 rounded-3xl border border-[#E5E7EB] bg-white p-5 sm:p-7 shadow-sm', className)}>
       {/* Track Header Title & Progress */}
       <div className="flex items-center justify-between text-xs sm:text-sm font-bold uppercase tracking-wider text-[#64748B]">
         <div className="flex items-center gap-2">
           <Zap className="h-4 w-4 text-[#F39C12] animate-pulse" />
-          <span className="text-[#111827] font-mono">F1 Speed Track</span>
+          <span className="text-[#111827] font-extrabold text-sm sm:text-base font-mono">F1 Speed Track</span>
         </div>
         <div className="flex items-center gap-3">
           {wpm > 0 && (
-            <span className="flex items-center gap-1 font-mono text-xs font-bold text-[#D68910] bg-[#FEF3C7] px-2.5 py-1 rounded-md border border-[#F39C12]/30">
-              <Flame className="h-3.5 w-3.5 text-[#F39C12] animate-bounce" /> {wpm} WPM
+            <span className="flex items-center gap-1 font-mono text-xs sm:text-sm font-bold text-[#D68910] bg-[#FEF3C7] px-3 py-1 rounded-lg border border-[#F39C12]/30">
+              <Flame className="h-4 w-4 text-[#F39C12] animate-bounce" /> {wpm} WPM
             </span>
           )}
-          <span className="font-mono text-[#D68910] font-black text-sm sm:text-base">
+          <span className="font-mono text-[#D68910] font-black text-base sm:text-lg">
             {clampedProgress}%
           </span>
         </div>
       </div>
 
       {/* Main Track Environment (Side-View Road Horizon) */}
-      <div className="relative mt-1 h-28 sm:h-32 w-full rounded-xl bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-2 overflow-hidden border-2 border-slate-800 shadow-inner flex items-end pb-2">
+      <div className="relative mt-1 h-32 sm:h-38 w-full rounded-2xl bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-2 overflow-hidden border-2 border-slate-800 shadow-inner flex items-end pb-2">
         {/* Top Boundary Line & Distant Sky Silhouette */}
         <div className="absolute top-0 left-0 right-0 h-3 bg-slate-900 border-b border-slate-700/60" />
 

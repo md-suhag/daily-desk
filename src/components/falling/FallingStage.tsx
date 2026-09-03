@@ -18,7 +18,7 @@ export function FallingStage({ words, activeInput, status, onStart }: FallingSta
     <div
       onClick={status === 'IDLE' ? onStart : undefined}
       className={cn(
-        'relative w-full h-[360px] xs:h-[400px] sm:h-[480px] rounded-2xl border border-[#E5E7EB] bg-white overflow-hidden shadow-sm select-none flex flex-col justify-between transition-colors duration-200',
+        'relative w-full h-[400px] xs:h-[450px] sm:h-[540px] rounded-3xl border border-[#E5E7EB] bg-white overflow-hidden shadow-sm select-none flex flex-col justify-between transition-colors duration-200',
         status === 'IDLE' ? 'cursor-pointer hover:border-[#F39C12]/50' : ''
       )}
     >

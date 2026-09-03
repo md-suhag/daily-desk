@@ -68,7 +68,7 @@ export default function TypingRacePage() {
   };
 
   return (
-    <div className="flex flex-col gap-4 sm:gap-6 max-w-4xl mx-auto">
+    <div className="flex flex-col gap-6 sm:gap-8 max-w-5xl mx-auto py-2 sm:py-6">
       {/* Race Control Header */}
       <RaceHeader
         status={state.status}
