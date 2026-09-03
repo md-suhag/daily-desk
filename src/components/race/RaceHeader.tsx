@@ -32,11 +32,11 @@ export function RaceHeader({
   ];
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-border bg-card p-5 shadow-sm">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-border/80 bg-card/90 p-4 sm:p-5 shadow-sm backdrop-blur-md">
       {/* Mode & Difficulty Selector */}
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <h1 className="text-xl font-bold tracking-tight text-foreground">Typing Race</h1>
+        <div className="flex items-center gap-2 flex-wrap">
+          <h1 className="text-lg sm:text-xl font-extrabold tracking-tight text-foreground">Typing Race</h1>
           <Badge variant={status === 'PLAYING' ? 'success' : status === 'PAUSED' ? 'warning' : 'primary'}>
             {status}
           </Badge>
@@ -45,7 +45,7 @@ export function RaceHeader({
           Type the prompt accurately. Content complexity increases with difficulty.
         </p>
 
-        <div className="flex items-center gap-1.5 mt-1">
+        <div className="flex items-center gap-1.5 mt-1 flex-wrap">
           {difficulties.map((d) => (
             <button
               key={d.level}
@@ -53,7 +53,7 @@ export function RaceHeader({
               disabled={status === 'PLAYING' || status === 'COUNTDOWN'}
               className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-150 ${
                 difficulty === d.level
-                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  ? 'bg-primary text-primary-foreground shadow-sm glow-primary'
                   : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
               } disabled:opacity-50 disabled:cursor-not-allowed`}
               title={d.desc}
@@ -65,27 +65,27 @@ export function RaceHeader({
       </div>
 
       {/* Action Controls */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap w-full sm:w-auto">
         {status === 'IDLE' && (
-          <Button onClick={onStart} variant="primary" size="md" glow>
+          <Button onClick={onStart} variant="primary" size="md" glow className="w-full sm:w-auto">
             <Play className="h-4 w-4" /> Start Race (Enter)
           </Button>
         )}
 
         {status === 'PLAYING' && (
-          <Button onClick={onPause} variant="outline" size="md">
+          <Button onClick={onPause} variant="outline" size="md" className="flex-1 sm:flex-none">
             <Pause className="h-4 w-4" /> Pause (Esc)
           </Button>
         )}
 
         {status === 'PAUSED' && (
-          <Button onClick={onResume} variant="primary" size="md">
+          <Button onClick={onResume} variant="primary" size="md" className="flex-1 sm:flex-none">
             <Play className="h-4 w-4" /> Resume
           </Button>
         )}
 
         {(status === 'PLAYING' || status === 'PAUSED' || status === 'COMPLETED') && (
-          <Button onClick={onRestart} variant="secondary" size="md">
+          <Button onClick={onRestart} variant="secondary" size="md" className="flex-1 sm:flex-none">
             <RotateCcw className="h-4 w-4" /> Restart
           </Button>
         )}

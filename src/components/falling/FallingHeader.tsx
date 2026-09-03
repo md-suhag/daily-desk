@@ -33,15 +33,15 @@ export function FallingHeader({
   onRestart,
 }: FallingHeaderProps) {
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-border bg-card p-5 shadow-sm">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-border/80 bg-card/90 p-4 sm:p-5 shadow-sm backdrop-blur-md">
       {/* Title & Adaptive Level Info */}
       <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2">
-          <h1 className="text-xl font-bold tracking-tight text-foreground">Falling Words</h1>
+        <div className="flex items-center gap-2 flex-wrap">
+          <h1 className="text-lg sm:text-xl font-extrabold tracking-tight text-foreground">Falling Words</h1>
           <Badge variant={status === 'PLAYING' ? 'success' : status === 'PAUSED' ? 'warning' : 'primary'}>
             {status}
           </Badge>
-          <Badge variant="outline" className="text-accent border-accent/40 font-mono">
+          <Badge variant="outline" className="text-accent border-accent/40 font-mono text-xs">
             Adaptive Lvl {adaptiveLevel}
           </Badge>
         </div>
@@ -51,16 +51,16 @@ export function FallingHeader({
       </div>
 
       {/* Live Stats Bar */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4 flex-wrap justify-between sm:justify-start">
         {/* Score Display */}
-        <div className="flex items-center gap-1.5 font-mono text-sm font-bold text-foreground bg-secondary/80 px-3 py-1.5 rounded-lg border border-border">
-          <Trophy className="h-4 w-4 text-warning" />
+        <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm font-bold text-foreground bg-secondary/80 px-2.5 sm:px-3 py-1.5 rounded-lg border border-border">
+          <Trophy className="h-3.5 w-3.5 text-warning" />
           <span>{score} pts</span>
         </div>
 
         {/* Live WPM */}
-        <div className="flex items-center gap-1.5 font-mono text-sm font-bold text-foreground bg-secondary/80 px-3 py-1.5 rounded-lg border border-border">
-          <Zap className="h-4 w-4 text-primary" />
+        <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm font-bold text-foreground bg-secondary/80 px-2.5 sm:px-3 py-1.5 rounded-lg border border-border">
+          <Zap className="h-3.5 w-3.5 text-primary" />
           <span>{wpm} WPM</span>
         </div>
 
@@ -69,7 +69,7 @@ export function FallingHeader({
           {Array.from({ length: maxLives }).map((_, idx) => (
             <Heart
               key={idx}
-              className={`h-5 w-5 transition-transform duration-200 ${
+              className={`h-4.5 w-4.5 sm:h-5 sm:w-5 transition-transform duration-200 ${
                 idx < lives
                   ? 'fill-destructive text-destructive scale-100'
                   : 'text-muted-foreground/30 scale-90'
@@ -80,27 +80,27 @@ export function FallingHeader({
       </div>
 
       {/* Action buttons */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap w-full sm:w-auto">
         {status === 'IDLE' && (
-          <Button onClick={onStart} variant="primary" size="md" glow>
+          <Button onClick={onStart} variant="primary" size="md" glow className="w-full sm:w-auto">
             <Play className="h-4 w-4" /> Play Game (Enter)
           </Button>
         )}
 
         {status === 'PLAYING' && (
-          <Button onClick={onPause} variant="outline" size="md">
+          <Button onClick={onPause} variant="outline" size="md" className="flex-1 sm:flex-none">
             <Pause className="h-4 w-4" /> Pause (Esc)
           </Button>
         )}
 
         {status === 'PAUSED' && (
-          <Button onClick={onResume} variant="primary" size="md">
+          <Button onClick={onResume} variant="primary" size="md" className="flex-1 sm:flex-none">
             <Play className="h-4 w-4" /> Resume
           </Button>
         )}
 
         {(status === 'PLAYING' || status === 'PAUSED' || status === 'GAME_OVER') && (
-          <Button onClick={onRestart} variant="secondary" size="md">
+          <Button onClick={onRestart} variant="secondary" size="md" className="flex-1 sm:flex-none">
             <RotateCcw className="h-4 w-4" /> Restart
           </Button>
         )}

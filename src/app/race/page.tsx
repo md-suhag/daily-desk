@@ -68,7 +68,7 @@ export default function TypingRacePage() {
   };
 
   return (
-    <div className="flex flex-col gap-6 max-w-4xl mx-auto">
+    <div className="flex flex-col gap-4 sm:gap-6 max-w-4xl mx-auto">
       {/* Race Control Header */}
       <RaceHeader
         status={state.status}
@@ -88,9 +88,9 @@ export default function TypingRacePage() {
 
       {/* Countdown Overlay when pre-game */}
       {state.status === 'COUNTDOWN' && (
-        <div className="flex flex-col items-center justify-center p-10 rounded-2xl border border-primary/40 bg-card/90 shadow-2xl animate-pop-in">
+        <div className="flex flex-col items-center justify-center p-6 sm:p-10 rounded-2xl border border-primary/40 bg-card/90 shadow-2xl animate-pop-in backdrop-blur-md">
           <span className="text-xs uppercase font-bold tracking-widest text-primary">Get Ready</span>
-          <span className="text-7xl font-black font-mono text-primary animate-pulse mt-2">
+          <span className="text-5xl sm:text-7xl font-black font-mono text-primary animate-pulse mt-2">
             {state.countdownSeconds}
           </span>
         </div>
@@ -109,7 +109,7 @@ export default function TypingRacePage() {
       )}
 
       {/* Real-time HUD Metrics Bar */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
         <StatCard
           label="Net Speed"
           value={state.calculatedMetrics.netWPM}

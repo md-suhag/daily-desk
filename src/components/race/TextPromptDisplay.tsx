@@ -46,18 +46,18 @@ export function TextPromptDisplay({
       ref={containerRef}
       onClick={status === 'IDLE' ? onStart : undefined}
       className={cn(
-        'relative min-h-[140px] max-h-[220px] overflow-y-auto rounded-2xl border bg-card/90 p-6 shadow-inner font-mono text-xl sm:text-2xl leading-relaxed tracking-wide transition-all duration-200 select-none',
+        'relative min-h-[130px] sm:min-h-[150px] max-h-[220px] overflow-y-auto rounded-2xl border bg-card/90 p-4 sm:p-6 shadow-inner font-mono text-base sm:text-xl md:text-2xl leading-relaxed tracking-wide transition-all duration-200 select-none break-words',
         status === 'IDLE' ? 'cursor-pointer hover:border-primary/50' : '',
-        isFocused ? 'border-primary/60 ring-2 ring-primary/20' : 'border-border'
+        isFocused ? 'border-primary/60 ring-2 ring-primary/20 glow-primary' : 'border-border'
       )}
       tabIndex={0}
       aria-label="Typing text prompt"
     >
       {/* Click / Key start banner when IDLE */}
       {status === 'IDLE' && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/80 backdrop-blur-xs p-4 text-center rounded-2xl">
-          <div className="flex items-center gap-2 font-sans text-base font-bold text-primary">
-            <Play className="h-5 w-5" />
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/85 backdrop-blur-xs p-4 text-center rounded-2xl">
+          <div className="flex items-center gap-2 font-sans text-sm sm:text-base font-bold text-primary">
+            <Play className="h-4 w-4 sm:h-5 sm:w-5" />
             <span>Click prompt or press any key / Enter to Start Race</span>
           </div>
         </div>
