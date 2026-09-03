@@ -81,6 +81,9 @@ export const metadata: Metadata = {
     creator: "@mdas_suhag",
     images: ["/og-image.png"],
   },
+  verification: {
+    google: "MX2jC7pdHuwWBUis2IsD2GqhbR0cngjSXU79Accz890",
+  },
 };
 
 export const viewport: Viewport = {
