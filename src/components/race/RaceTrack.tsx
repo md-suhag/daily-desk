@@ -30,17 +30,16 @@ function SideViewRaceCar({ wpm, isMoving }: { wpm: number; isMoving: boolean }) 
       {/* SVG Side-View Supercar Graphic */}
       <svg
         viewBox="0 0 170 70"
-        className="w-28 sm:w-36 h-12 sm:h-16 drop-shadow-[0_8px_16px_rgba(168,85,247,0.5)] transition-transform duration-200 z-10"
+        className="w-28 sm:w-36 h-12 sm:h-16 drop-shadow-[0_8px_16px_rgba(243,156,18,0.5)] transition-transform duration-200 z-10"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
           {/* Metallic Side Paint Gradient */}
           <linearGradient id="sideCarPaint" x1="0" y1="20" x2="160" y2="50" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#68d391" />
-            <stop offset="0%" stopColor="#7e22ce" />
-            <stop offset="50%" stopColor="#a855f7" />
-            <stop offset="100%" stopColor="#06b6d4" />
+            <stop offset="0%" stopColor="#F39C12" />
+            <stop offset="50%" stopColor="#E67E22" />
+            <stop offset="100%" stopColor="#D68910" />
           </linearGradient>
 
           {/* Windshield & Side Glass Reflection */}
@@ -76,7 +75,7 @@ function SideViewRaceCar({ wpm, isMoving }: { wpm: number; isMoving: boolean }) 
         <polygon points="148,36 170,22 170,55 148,46" fill="url(#sideHeadlightBeam)" />
 
         {/* Rear High-Mount Sports Wing / Spoiler */}
-        <path d="M 8 18 L 26 18 L 24 23 L 14 23 Z" fill="#7e22ce" stroke="#c084fc" strokeWidth="1" />
+        <path d="M 8 18 L 26 18 L 24 23 L 14 23 Z" fill="#D68910" stroke="#F39C12" strokeWidth="1" />
         <rect x="15" y="23" width="3.5" height="12" fill="#0f172a" />
         <rect x="22" y="23" width="3.5" height="12" fill="#0f172a" />
 
@@ -84,7 +83,7 @@ function SideViewRaceCar({ wpm, isMoving }: { wpm: number; isMoving: boolean }) 
         <path
           d="M 10 46 C 8 36, 16 32, 28 32 C 40 32, 48 20, 68 17 C 88 15, 106 18, 118 28 C 132 30, 146 36, 154 41 C 158 43.5, 158 47.5, 154 48 C 144 50, 134 50, 10 48 Z"
           fill="url(#sideCarPaint)"
-          stroke="#f3e8ff"
+          stroke="#fef3c7"
           strokeWidth="1.2"
         />
 
@@ -100,11 +99,11 @@ function SideViewRaceCar({ wpm, isMoving }: { wpm: number; isMoving: boolean }) 
 
         {/* Body Accent Lines & Door Panels */}
         <path d="M 32 40 L 138 40" stroke="#ffffff" strokeWidth="1" opacity="0.6" />
-        <path d="M 60 30 L 64 46" stroke="#581c87" strokeWidth="1.5" opacity="0.8" />
-        <path d="M 84 30 L 88 46" stroke="#581c87" strokeWidth="1.5" opacity="0.8" />
+        <path d="M 60 30 L 64 46" stroke="#b45309" strokeWidth="1.5" opacity="0.8" />
+        <path d="M 84 30 L 88 46" stroke="#b45309" strokeWidth="1.5" opacity="0.8" />
 
         {/* Side Air Intake Vent near Rear Fender */}
-        <path d="M 44 36 L 52 36 L 48 44 L 42 44 Z" fill="#0f172a" stroke="#a855f7" strokeWidth="1" />
+        <path d="M 44 36 L 52 36 L 48 44 L 42 44 Z" fill="#0f172a" stroke="#F39C12" strokeWidth="1" />
 
         {/* Front LED Headlight Lens */}
         <path d="M 144 38 C 152 40, 154 43, 146 45 Z" fill="#ffffff" />
@@ -164,20 +163,20 @@ export function RaceTrack({ progressPercentage, wpm, className }: RaceTrackProps
   const isMoving = wpm > 0 && clampedProgress > 0 && clampedProgress < 100;
 
   return (
-    <div className={cn('flex flex-col gap-4 rounded-3xl border border-[#E5E7EB] bg-white p-5 sm:p-7 shadow-sm', className)}>
+    <div className={cn('flex flex-col gap-4 rounded-3xl border border-border bg-card p-5 sm:p-7 shadow-sm transition-colors duration-200', className)}>
       {/* Track Header Title & Progress */}
-      <div className="flex items-center justify-between text-xs sm:text-sm font-bold uppercase tracking-wider text-[#64748B]">
+      <div className="flex items-center justify-between text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
         <div className="flex items-center gap-2">
           <Zap className="h-4 w-4 text-[#F39C12] animate-pulse" />
-          <span className="text-[#111827] font-extrabold text-sm sm:text-base font-mono">F1 Speed Track</span>
+          <span className="text-foreground font-extrabold text-sm sm:text-base font-mono">F1 Speed Track</span>
         </div>
         <div className="flex items-center gap-3">
           {wpm > 0 && (
-            <span className="flex items-center gap-1 font-mono text-xs sm:text-sm font-bold text-[#D68910] bg-[#FEF3C7] px-3 py-1 rounded-lg border border-[#F39C12]/30">
+            <span className="flex items-center gap-1 font-mono text-xs sm:text-sm font-bold text-[#F39C12] bg-amber-500/10 px-3 py-1 rounded-lg border border-[#F39C12]/30">
               <Flame className="h-4 w-4 text-[#F39C12] animate-bounce" /> {wpm} WPM
             </span>
           )}
-          <span className="font-mono text-[#D68910] font-black text-base sm:text-lg">
+          <span className="font-mono text-[#F39C12] font-black text-base sm:text-lg">
             {clampedProgress}%
           </span>
         </div>
@@ -207,7 +206,7 @@ export function RaceTrack({ progressPercentage, wpm, className }: RaceTrackProps
         {/* Checkered Finish Line Banner */}
         <div className="absolute right-2 top-3 bottom-1 w-9 bg-checkered rounded-t border-t-2 border-x-2 border-white/60 flex flex-col justify-center items-center shadow-lg z-10">
           <div className="bg-background/90 p-1.5 rounded-full border border-primary/50 shadow">
-            <Flag className="h-4 w-4 text-accent" />
+            <Flag className="h-4 w-4 text-[#F39C12]" />
           </div>
         </div>
 
@@ -215,12 +214,11 @@ export function RaceTrack({ progressPercentage, wpm, className }: RaceTrackProps
         <div
           className="absolute bottom-1 transition-all duration-300 ease-out flex flex-col items-center z-20"
           style={{
-            // Smooth positioning: starting offset left at 10px up to finish banner
             left: `calc(10px + (${clampedProgress}% * 0.76))`,
           }}
         >
           {/* Floating WPM Speed Badge directly above car roof */}
-          <div className="mb-1 flex items-center gap-1 rounded-full bg-slate-900/95 px-2.5 py-0.5 text-[11px] font-black font-mono text-accent border border-accent/40 shadow-lg glow-accent whitespace-nowrap">
+          <div className="mb-1 flex items-center gap-1 rounded-full bg-slate-900/95 px-2.5 py-0.5 text-[11px] font-black font-mono text-[#F39C12] border border-[#F39C12]/40 shadow-lg whitespace-nowrap">
             <span>🏎️</span>
             <span>{wpm} WPM</span>
           </div>

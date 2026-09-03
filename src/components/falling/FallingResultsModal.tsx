@@ -38,13 +38,13 @@ export function FallingResultsModal({
     <Modal isOpen={isOpen} title="Game Over" className="max-w-xl">
       <div className="flex flex-col gap-6">
         {/* Banner Message */}
-        <div className="rounded-xl border border-[#F39C12]/40 bg-[#FEF3C7]/40 p-4 flex items-center gap-3">
+        <div className="rounded-xl border border-[#F39C12]/40 bg-amber-500/10 p-4 flex items-center gap-3">
           <Flame className="h-8 w-8 text-[#F39C12] shrink-0" />
           <div className="flex flex-col">
-            <h3 className="font-bold text-base text-[#111827]">
+            <h3 className="font-bold text-base text-foreground">
               {isNewHighScore ? '🏆 New High Score!' : 'Game Over!'}
             </h3>
-            <p className="text-xs text-[#64748B]">
+            <p className="text-xs text-muted-foreground">
               You reached Adaptive Level {adaptiveLevel} and destroyed {wordsCleared} words.
             </p>
           </div>
@@ -79,24 +79,24 @@ export function FallingResultsModal({
         </div>
 
         {/* Summary Details */}
-        <div className="rounded-xl border border-[#E5E7EB] bg-slate-100 p-4 flex justify-between items-center text-xs font-mono">
+        <div className="rounded-xl border border-border bg-secondary p-4 flex justify-between items-center text-xs font-mono">
           <div>
-            <span className="text-[#64748B]">Words Missed: </span>
-            <span className="font-bold text-[#DC2626]">{wordsMissed}</span>
+            <span className="text-muted-foreground">Words Missed: </span>
+            <span className="font-bold text-red-500">{wordsMissed}</span>
           </div>
           <div>
-            <span className="text-[#64748B]">Session Duration: </span>
-            <span className="font-bold text-[#111827]">{calculatedMetrics.durationSeconds}s</span>
+            <span className="text-muted-foreground">Session Duration: </span>
+            <span className="font-bold text-foreground">{calculatedMetrics.durationSeconds}s</span>
           </div>
           <div>
-            <span className="text-[#64748B]">Previous Best Score: </span>
-            <span className="font-bold text-[#D68910]">{stats.bestFallingScore}</span>
+            <span className="text-muted-foreground">Previous Best: </span>
+            <span className="font-bold text-[#F39C12]">{stats.bestFallingScore}</span>
           </div>
         </div>
 
         {/* Actions */}
         <div className="flex items-center justify-end gap-3 pt-2">
-          <Button onClick={onRestart} variant="primary" size="lg" glow className="w-full">
+          <Button onClick={onRestart} variant="primary" size="lg" glow className="w-full bg-[#F39C12] hover:bg-[#D68910] text-white font-bold">
             <RotateCcw className="h-5 w-5" /> Try Again (Enter)
           </Button>
         </div>

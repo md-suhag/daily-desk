@@ -32,16 +32,16 @@ export function RaceHeader({
   ];
 
   return (
-    <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between rounded-3xl border border-[#E5E7EB] bg-white p-5 sm:p-7 shadow-sm">
+    <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between rounded-3xl border border-border bg-card p-5 sm:p-7 shadow-sm transition-colors duration-200">
       {/* Mode & Difficulty Selector */}
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-3 flex-wrap">
-          <h1 className="text-xl sm:text-3xl font-black tracking-tight text-[#111827]">Typing Race</h1>
+          <h1 className="text-xl sm:text-3xl font-black tracking-tight text-foreground">Typing Race</h1>
           <Badge variant={status === 'PLAYING' ? 'success' : status === 'PAUSED' ? 'warning' : 'primary'} className="px-3 py-1 text-xs font-bold">
             {status}
           </Badge>
         </div>
-        <p className="text-xs sm:text-sm text-[#64748B]">
+        <p className="text-xs sm:text-sm text-muted-foreground">
           Type the prompt accurately. Content complexity increases with difficulty.
         </p>
 
@@ -54,7 +54,7 @@ export function RaceHeader({
               className={`px-4 py-1.5 text-xs sm:text-sm font-bold rounded-xl transition-all duration-150 ${
                 difficulty === d.level
                   ? 'bg-[#F39C12] text-white shadow-xs scale-[1.02]'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  : 'bg-secondary text-foreground hover:bg-secondary/80'
               } disabled:opacity-50 disabled:cursor-not-allowed`}
               title={d.desc}
             >
@@ -73,7 +73,7 @@ export function RaceHeader({
         )}
 
         {status === 'PLAYING' && (
-          <Button onClick={onPause} variant="outline" size="lg" className="flex-1 sm:flex-none font-bold">
+          <Button onClick={onPause} variant="outline" size="lg" className="flex-1 sm:flex-none font-bold border-border text-foreground hover:bg-secondary">
             <Pause className="h-4 w-4" /> Pause (Esc)
           </Button>
         )}
@@ -85,7 +85,7 @@ export function RaceHeader({
         )}
 
         {(status === 'PLAYING' || status === 'PAUSED' || status === 'COMPLETED') && (
-          <Button onClick={onRestart} variant="secondary" size="lg" className="flex-1 sm:flex-none font-bold">
+          <Button onClick={onRestart} variant="secondary" size="lg" className="flex-1 sm:flex-none font-bold bg-secondary text-foreground hover:bg-secondary/80">
             <RotateCcw className="h-4 w-4" /> Restart
           </Button>
         )}

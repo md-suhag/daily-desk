@@ -35,6 +35,85 @@
   --ring: 37 90% 51%;            /* #F39C12 Focus Ring */
 }
 
+.dark {
+  --background: 222 47% 7%;        /* #0B0F17 Obsidian Slate */
+  --foreground: 210 40% 98%;       /* #F8FAFC Light Slate */
+
+  --card: 222 36% 11%;             /* #131926 Dark Slate Surface */
+  --card-foreground: 210 40% 98%;
+
+  --primary: 37 90% 51%;           /* #F39C12 Warm Energetic Amber */
+  --primary-foreground: 0 0% 100%;
+  --primary-hover: 37 86% 45%;
+
+  --secondary: 222 25% 16%;        /* #1E2738 */
+  --secondary-foreground: 210 40% 98%;
+
+  --muted: 222 25% 16%;
+  --muted-foreground: 215 20% 65%; /* #94A3B8 Muted Text */
+
+  --accent: 37 90% 51%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+
+  --success: 142 72% 36%;
+  --success-foreground: 0 0% 100%;
+
+  --warning: 37 90% 51%;
+  --warning-foreground: 222 47% 11%;
+
+  --border: 222 20% 20%;           /* #1F293D Dark Border */
+  --ring: 37 90% 51%;
+}
+
+/* Explicit Dark Mode Overrides for Absolute Reliability */
+.dark body {
+  background-color: #0B0F17 !important;
+  color: #F8FAFC !important;
+}
+
+.dark header {
+  background-color: rgba(19, 25, 38, 0.96) !important;
+  border-color: #1F293D !important;
+}
+
+.dark footer {
+  background-color: rgba(19, 25, 38, 0.9) !important;
+  border-color: #1F293D !important;
+}
+
+.dark .bg-white {
+  background-color: #131926 !important;
+  color: #F8FAFC !important;
+}
+
+.dark .bg-slate-100,
+.dark .bg-slate-50 {
+  background-color: #1E2738 !important;
+  color: #F8FAFC !important;
+}
+
+.dark .text-\[\#111827\],
+.dark .text-slate-900,
+.dark .text-slate-800,
+.dark .text-slate-700 {
+  color: #F8FAFC !important;
+}
+
+.dark .text-\[\#64748B\],
+.dark .text-slate-600,
+.dark .text-slate-500 {
+  color: #94A3B8 !important;
+}
+
+.dark .border-\[\#E5E7EB\],
+.dark .border-slate-200,
+.dark .border-slate-300 {
+  border-color: #1F293D !important;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -50,6 +129,7 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Custom Scrollbar */

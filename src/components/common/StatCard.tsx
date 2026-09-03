@@ -22,18 +22,18 @@ export function StatCard({
   className,
 }: StatCardProps) {
   const colorStyles = {
-    default: 'text-[#111827] border-[#E5E7EB] bg-white',
-    primary: 'text-[#D68910] border-[#F39C12]/40 bg-[#FEF3C7]/40',
-    accent: 'text-[#D68910] border-[#F39C12]/40 bg-[#FEF3C7]/40',
-    success: 'text-[#D68910] border-[#F39C12]/40 bg-[#FEF3C7]/50',
-    warning: 'text-[#D68910] border-amber-300 bg-amber-50',
-    destructive: 'text-[#DC2626] border-red-200 bg-red-50',
+    default: 'text-foreground border-border bg-card',
+    primary: 'text-[#F39C12] border-[#F39C12]/40 bg-amber-500/10',
+    accent: 'text-[#F39C12] border-[#F39C12]/40 bg-amber-500/10',
+    success: 'text-[#F39C12] border-[#F39C12]/40 bg-amber-500/10',
+    warning: 'text-[#F39C12] border-[#F39C12]/40 bg-amber-500/10',
+    destructive: 'text-red-500 border-red-500/40 bg-red-500/10',
   };
 
   return (
     <div
       className={cn(
-        'flex flex-col gap-1 rounded-xl border bg-card/90 p-3 sm:p-4 shadow-sm transition-all duration-200 hover:border-primary/40 min-w-0 backdrop-blur-xs',
+        'flex flex-col gap-1 rounded-xl border p-3 sm:p-4 shadow-sm transition-all duration-200 hover:border-primary/50 min-w-0 backdrop-blur-xs',
         colorStyles[color],
         className
       )}
@@ -42,7 +42,7 @@ export function StatCard({
         <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-muted-foreground truncate">
           {label}
         </span>
-        {Icon && <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 opacity-70 shrink-0" />}
+        {Icon && <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 opacity-80 shrink-0" />}
       </div>
       <div className="flex items-baseline gap-1 mt-1 min-w-0">
         <span className="text-lg sm:text-2xl font-black tracking-tight font-mono truncate">{value}</span>

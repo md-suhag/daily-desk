@@ -46,16 +46,16 @@ export function TextPromptDisplay({
       ref={containerRef}
       onClick={status === 'IDLE' ? onStart : undefined}
       className={cn(
-        'relative min-h-[150px] sm:min-h-[180px] max-h-[260px] overflow-y-auto rounded-3xl border bg-white p-6 sm:p-8 shadow-sm font-mono text-lg sm:text-2xl md:text-3xl leading-relaxed tracking-wide transition-all duration-200 select-none break-words',
-        status === 'IDLE' ? 'cursor-pointer hover:border-amber-400' : '',
-        isFocused ? 'border-[#F39C12] ring-2 ring-[#F39C12]/20' : 'border-[#E5E7EB]'
+        'relative min-h-[150px] sm:min-h-[180px] max-h-[260px] overflow-y-auto rounded-3xl border bg-card p-6 sm:p-8 shadow-sm font-mono text-lg sm:text-2xl md:text-3xl leading-relaxed tracking-wide transition-all duration-200 select-none break-words',
+        status === 'IDLE' ? 'cursor-pointer hover:border-[#F39C12]' : '',
+        isFocused ? 'border-[#F39C12] ring-2 ring-[#F39C12]/20' : 'border-border'
       )}
       tabIndex={0}
       aria-label="Typing text prompt"
     >
       {/* Click / Key start banner when IDLE */}
       {status === 'IDLE' && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/90 backdrop-blur-xs p-4 text-center rounded-2xl">
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-card/90 backdrop-blur-xs p-4 text-center rounded-2xl">
           <div className="flex items-center gap-2 font-sans text-sm sm:text-base font-bold text-[#F39C12]">
             <Play className="h-4 w-4 sm:h-5 sm:w-5 fill-[#F39C12]" />
             <span>Click prompt or press any key / Enter to Start Race</span>
@@ -75,10 +75,10 @@ export function TextPromptDisplay({
             ref={isCurrent ? activeCharRef : null}
             className={cn(
               'relative rounded px-0.5 transition-colors duration-100',
-              isCorrect && 'text-[#D68910] font-extrabold',
-              isIncorrect && 'bg-red-100 text-red-600 font-bold border-b-2 border-red-500',
-              !isTyped && !isCurrent && 'text-slate-400',
-              isCurrent && 'text-slate-900 font-extrabold bg-amber-100 ring-1 ring-amber-400'
+              isCorrect && 'text-[#F39C12] font-extrabold',
+              isIncorrect && 'bg-red-500/20 text-red-500 font-bold border-b-2 border-red-500',
+              !isTyped && !isCurrent && 'text-muted-foreground/50',
+              isCurrent && 'text-foreground font-extrabold bg-amber-500/20 ring-1 ring-amber-400'
             )}
           >
             {/* Visual indicator for space errors */}

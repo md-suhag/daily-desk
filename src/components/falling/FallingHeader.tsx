@@ -3,7 +3,7 @@
 import React from 'react';
 import { GameStatus } from '@/types/game';
 import { Badge } from '@/components/ui/Badge';
-import { Heart, Trophy, Zap, ShieldAlert } from 'lucide-react';
+import { Heart, Trophy, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Play, Pause, RotateCcw } from 'lucide-react';
 
@@ -33,19 +33,19 @@ export function FallingHeader({
   onRestart,
 }: FallingHeaderProps) {
   return (
-    <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between rounded-3xl border border-[#E5E7EB] bg-white p-5 sm:p-7 shadow-sm">
+    <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between rounded-3xl border border-border bg-card p-5 sm:p-7 shadow-sm transition-colors duration-200">
       {/* Title & Adaptive Level Info */}
       <div className="flex flex-col gap-1.5">
         <div className="flex items-center gap-3 flex-wrap">
-          <h1 className="text-xl sm:text-3xl font-black tracking-tight text-[#111827]">Falling Words</h1>
+          <h1 className="text-xl sm:text-3xl font-black tracking-tight text-foreground">Falling Words</h1>
           <Badge variant={status === 'PLAYING' ? 'success' : status === 'PAUSED' ? 'warning' : 'primary'} className="px-3 py-1 text-xs font-bold">
             {status}
           </Badge>
-          <Badge variant="outline" className="text-[#D68910] border-[#F39C12]/40 bg-amber-50 font-mono text-xs font-bold px-3 py-1">
+          <Badge variant="outline" className="text-[#F39C12] border-[#F39C12]/40 bg-amber-500/10 font-mono text-xs font-bold px-3 py-1">
             Adaptive Lvl {adaptiveLevel}
           </Badge>
         </div>
-        <p className="text-xs sm:text-sm text-[#64748B]">
+        <p className="text-xs sm:text-sm text-muted-foreground">
           Type the falling words before they hit the danger zone. Difficulty adapts smoothly.
         </p>
       </div>
@@ -53,26 +53,26 @@ export function FallingHeader({
       {/* Live Stats Bar */}
       <div className="flex items-center gap-2.5 sm:gap-4 flex-wrap justify-between sm:justify-start">
         {/* Score Display */}
-        <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm font-bold text-[#111827] bg-slate-100 px-3 py-2 rounded-xl border border-slate-200">
+        <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm font-bold text-foreground bg-secondary px-3 py-2 rounded-xl border border-border">
           <Trophy className="h-4 w-4 text-amber-500" />
           <span>{score} pts</span>
         </div>
 
         {/* Live WPM */}
-        <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm font-bold text-[#111827] bg-slate-100 px-3 py-2 rounded-xl border border-slate-200">
+        <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm font-bold text-foreground bg-secondary px-3 py-2 rounded-xl border border-border">
           <Zap className="h-4 w-4 text-[#F39C12]" />
           <span>{wpm} WPM</span>
         </div>
 
         {/* Lives / Health Hearts */}
-        <div className="flex items-center gap-1 bg-slate-50 p-2 rounded-xl border border-slate-200">
+        <div className="flex items-center gap-1 bg-secondary p-2 rounded-xl border border-border">
           {Array.from({ length: maxLives }).map((_, idx) => (
             <Heart
               key={idx}
               className={`h-4.5 w-4.5 sm:h-5 sm:w-5 transition-transform duration-200 ${
                 idx < lives
                   ? 'fill-red-500 text-red-500 scale-100'
-                  : 'text-slate-300 scale-90'
+                  : 'text-muted-foreground/30 scale-90'
               }`}
             />
           ))}
@@ -88,7 +88,7 @@ export function FallingHeader({
         )}
 
         {status === 'PLAYING' && (
-          <Button onClick={onPause} variant="outline" size="lg" className="flex-1 sm:flex-none font-bold">
+          <Button onClick={onPause} variant="outline" size="lg" className="flex-1 sm:flex-none font-bold border-border text-foreground hover:bg-secondary">
             <Pause className="h-4 w-4" /> Pause (Esc)
           </Button>
         )}
@@ -100,7 +100,7 @@ export function FallingHeader({
         )}
 
         {(status === 'PLAYING' || status === 'PAUSED' || status === 'GAME_OVER') && (
-          <Button onClick={onRestart} variant="secondary" size="lg" className="flex-1 sm:flex-none font-bold">
+          <Button onClick={onRestart} variant="secondary" size="lg" className="flex-1 sm:flex-none font-bold bg-secondary text-foreground hover:bg-secondary/80">
             <RotateCcw className="h-4 w-4" /> Restart
           </Button>
         )}
