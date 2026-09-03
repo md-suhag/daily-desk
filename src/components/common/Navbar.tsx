@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutGrid, Flag, Flame, Menu, X, ChevronRight } from 'lucide-react';
+import { Home, Flag, Flame, Menu, X, ChevronRight, Layers } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function Navbar() {
@@ -11,7 +11,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { href: '/', label: 'Hub', shortLabel: 'Hub', icon: LayoutGrid, desc: 'Dashboard & statistics' },
+    { href: '/', label: 'Home', shortLabel: 'Home', icon: Home, desc: 'Dashboard & statistics' },
     { href: '/race', label: 'Typing Race', shortLabel: 'Race', icon: Flag, desc: 'Sentence speed racing' },
     { href: '/falling', label: 'Falling Words', shortLabel: 'Falling', icon: Flame, desc: 'Arcade word survival' },
   ];
@@ -23,18 +23,42 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[#E5E7EB] bg-white/95 backdrop-blur-md relative shadow-xs">
-      <div className="container mx-auto flex h-14 sm:h-16 items-center justify-between px-3 sm:px-6">
-        {/* Brand Logo */}
+      <div className="container mx-auto flex h-14 sm:h-16 items-center justify-between px-4 sm:px-8 max-w-7xl">
+        {/* Professional Modern Brand Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 font-extrabold text-base sm:text-xl tracking-tight text-[#111827] hover:opacity-90 transition-opacity shrink-0"
+          className="flex items-center gap-2.5 font-extrabold text-lg sm:text-2xl tracking-tight text-[#111827] hover:opacity-90 transition-opacity shrink-0 group"
         >
-          <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-[#F39C12] text-white shadow-sm">
-            <LayoutGrid className="h-4 w-4 sm:h-5 sm:w-5 fill-white" />
+          {/* Distinctive Executive Dual-Tone Emblem */}
+          <div className="relative flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#F39C12] via-[#E67E22] to-[#D68910] text-white shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform duration-200">
+            <div className="absolute inset-0.5 rounded-[10px] border border-white/25 pointer-events-none" />
+            <svg
+              className="h-5 w-5 sm:h-5.5 sm:w-5.5 fill-none stroke-current stroke-[2.2] text-white"
+              viewBox="0 0 24 24"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {/* Sleek desk / workstation layered geometric mark */}
+              <rect x="3" y="4" width="18" height="12" rx="2.5" />
+              <path d="M7 20h10" />
+              <path d="M12 16v4" />
+              <path d="M8 9h8" />
+              <path d="M10 12h4" />
+            </svg>
           </div>
-          <span className="text-[#111827] font-black">
-            Daily<span className="text-[#F39C12]">Desk</span>
-          </span>
+
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1 leading-none">
+              <span className="font-black tracking-tight text-lg sm:text-xl">
+                <span className="bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-clip-text text-transparent">Daily</span>
+                <span className="bg-gradient-to-r from-[#F39C12] via-amber-500 to-[#D68910] bg-clip-text text-transparent">Desk</span>
+              </span>
+              <span className="h-1.5 w-1.5 rounded-full bg-[#F39C12] animate-pulse" />
+            </div>
+            <span className="text-[10px] font-bold tracking-widest uppercase text-[#64748B] hidden xs:inline-block">
+              Skill & Productivity
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Navigation (Visible on sm and up) */}
@@ -47,9 +71,9 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all duration-200',
+                  'flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all duration-200',
                   isActive
-                    ? 'bg-[#F39C12] text-white shadow-sm'
+                    ? 'bg-[#F39C12] text-white shadow-sm scale-[1.02]'
                     : 'text-[#64748B] hover:bg-slate-100 hover:text-[#111827]'
                 )}
               >
@@ -61,9 +85,9 @@ export function Navbar() {
         </nav>
 
         {/* Mobile Quick Bar & Hamburger Toggle Button (Visible on mobile) */}
-        <div className="flex sm:hidden items-center gap-1.5">
+        <div className="flex sm:hidden items-center gap-2">
           {/* Quick Icon Pits for fast mobile navigation without opening menu */}
-          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200">
+          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
@@ -72,7 +96,7 @@ export function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'p-1.5 rounded-md transition-colors',
+                    'p-1.5 rounded-lg transition-colors',
                     isActive
                       ? 'bg-[#F39C12] text-white shadow-xs'
                       : 'text-[#64748B] hover:text-[#111827]'
@@ -88,7 +112,7 @@ export function Navbar() {
           {/* Hamburger Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-[#111827] border border-slate-200 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-[#F39C12]/40 transition-colors"
+            className="flex h-9.5 w-9.5 items-center justify-center rounded-xl bg-slate-100 text-[#111827] border border-slate-200 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-[#F39C12]/40 transition-colors"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="h-5 w-5 text-[#F39C12]" /> : <Menu className="h-5 w-5" />}

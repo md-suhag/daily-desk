@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/common/Navbar';
+import { Code2, Heart, ExternalLink } from 'lucide-react';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-background text-foreground antialiased min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary relative overflow-x-hidden">
+      <body className="bg-background text-foreground antialiased min-h-screen flex flex-col selection:bg-[#F39C12]/20 selection:text-[#F39C12] relative overflow-x-hidden">
         {/* Soft Warm Ambient Background Layers */}
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
           {/* Top Left Warm Amber Glow */}
@@ -43,8 +44,43 @@ export default function RootLayout({
         <main className="flex-1 container mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-10 max-w-7xl relative z-10">
           {children}
         </main>
-        <footer className="border-t border-border/80 py-6 text-center text-xs text-muted-foreground relative z-10 bg-white/70 backdrop-blur-xs">
-          <p>© {new Date().getFullYear()} DailyDesk Platform. Designed for daily productivity & skill growth.</p>
+
+        {/* Professional Footer with Developer Credits */}
+        <footer className="border-t border-[#E5E7EB] py-8 text-center text-xs text-[#64748B] relative z-10 bg-white/80 backdrop-blur-md">
+          <div className="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 max-w-7xl">
+            {/* Copyright Info & Platform Tagline */}
+            <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 text-center sm:text-left">
+              <span className="font-extrabold text-[#111827]">
+                Daily<span className="text-[#F39C12]">Desk</span> Platform
+              </span>
+              <span className="hidden sm:inline-block text-slate-300">•</span>
+              <span>Designed for daily productivity & skill growth.</span>
+              <span className="hidden sm:inline-block text-slate-300">•</span>
+              <span className="text-slate-400">© {new Date().getFullYear()}</span>
+            </div>
+
+            {/* Developer Portfolio / Profile Link with Love Icon */}
+            <div className="flex items-center gap-2 bg-amber-50/80 px-4 py-1.5 rounded-full border border-[#F39C12]/30 shadow-xs">
+              <span className="flex items-center gap-1.5">
+                <span>Developed with</span>
+                <Heart className="h-3.5 w-3.5 fill-red-500 text-red-500 animate-pulse" />
+                <span>by</span>
+              </span>
+              <a
+                href="https://www.facebook.com/mdas.suhag"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-[#111827] hover:text-[#F39C12] transition-colors flex items-center gap-1 group"
+                title="Md Abdus Salam Suhag - Software Developer"
+              >
+                <span>Md Abdus Salam Suhag</span>
+                <span className="text-[10px] bg-[#F39C12] text-white px-1.5 py-0.2 rounded font-semibold ml-0.5">
+                  Software Developer
+                </span>
+                <ExternalLink className="h-3.5 w-3.5 text-[#F39C12] group-hover:translate-x-0.5 transition-transform" />
+              </a>
+            </div>
+          </div>
         </footer>
       </body>
     </html>
