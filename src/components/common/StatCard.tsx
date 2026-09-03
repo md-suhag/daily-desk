@@ -22,12 +22,12 @@ export function StatCard({
   className,
 }: StatCardProps) {
   const colorStyles = {
-    default: 'text-foreground border-border',
-    primary: 'text-primary border-primary/30 bg-primary/5',
-    accent: 'text-accent border-accent/30 bg-accent/5',
-    success: 'text-success border-success/30 bg-success/5',
-    warning: 'text-warning border-warning/30 bg-warning/5',
-    destructive: 'text-destructive border-destructive/30 bg-destructive/5',
+    default: 'text-[#111827] border-[#E5E7EB] bg-white',
+    primary: 'text-[#D68910] border-[#F39C12]/40 bg-[#FEF3C7]/40',
+    accent: 'text-[#D68910] border-[#F39C12]/40 bg-[#FEF3C7]/40',
+    success: 'text-[#D68910] border-[#F39C12]/40 bg-[#FEF3C7]/50',
+    warning: 'text-[#D68910] border-amber-300 bg-amber-50',
+    destructive: 'text-[#DC2626] border-red-200 bg-red-50',
   };
 
   return (

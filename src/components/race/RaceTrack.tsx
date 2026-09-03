@@ -164,20 +164,20 @@ export function RaceTrack({ progressPercentage, wpm, className }: RaceTrackProps
   const isMoving = wpm > 0 && clampedProgress > 0 && clampedProgress < 100;
 
   return (
-    <div className={cn('flex flex-col gap-3 rounded-2xl border border-border/80 bg-card/90 p-4 sm:p-5 shadow-lg backdrop-blur-md', className)}>
+    <div className={cn('flex flex-col gap-3 rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5 shadow-sm', className)}>
       {/* Track Header Title & Progress */}
-      <div className="flex items-center justify-between text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
+      <div className="flex items-center justify-between text-xs sm:text-sm font-bold uppercase tracking-wider text-[#64748B]">
         <div className="flex items-center gap-2">
-          <Zap className="h-4 w-4 text-accent animate-pulse" />
-          <span className="text-foreground font-mono">F1 Speed Track</span>
+          <Zap className="h-4 w-4 text-[#F39C12] animate-pulse" />
+          <span className="text-[#111827] font-mono">F1 Speed Track</span>
         </div>
         <div className="flex items-center gap-3">
           {wpm > 0 && (
-            <span className="flex items-center gap-1 font-mono text-xs font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-md border border-accent/30">
-              <Flame className="h-3.5 w-3.5 text-warning animate-bounce" /> {wpm} WPM
+            <span className="flex items-center gap-1 font-mono text-xs font-bold text-[#D68910] bg-[#FEF3C7] px-2.5 py-1 rounded-md border border-[#F39C12]/30">
+              <Flame className="h-3.5 w-3.5 text-[#F39C12] animate-bounce" /> {wpm} WPM
             </span>
           )}
-          <span className="font-mono text-primary font-black text-sm sm:text-base">
+          <span className="font-mono text-[#D68910] font-black text-sm sm:text-base">
             {clampedProgress}%
           </span>
         </div>

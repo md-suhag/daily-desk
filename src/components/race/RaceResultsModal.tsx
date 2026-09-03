@@ -28,11 +28,11 @@ export function RaceResultsModal({
     <Modal isOpen={isOpen} title="Race Finished!" className="max-w-xl">
       <div className="flex flex-col gap-6">
         {/* Banner Message */}
-        <div className="rounded-xl border border-primary/30 bg-primary/10 p-4 flex items-center gap-3">
-          <Trophy className="h-8 w-8 text-primary shrink-0" />
+        <div className="rounded-xl border border-[#F39C12]/40 bg-[#FEF3C7]/40 p-4 flex items-center gap-3">
+          <Trophy className="h-8 w-8 text-[#F39C12] shrink-0" />
           <div className="flex flex-col">
-            <h3 className="font-bold text-base text-foreground">{feedback.summaryMessage}</h3>
-            <p className="text-xs text-muted-foreground">
+            <h3 className="font-bold text-base text-[#111827]">{feedback.summaryMessage}</h3>
+            <p className="text-xs text-[#64748B]">
               {feedback.isNewBestWPM
                 ? 'Congratulations! You set a new personal record!'
                 : `Your personal best is ${stats.bestRaceWPM} WPM.`}
@@ -74,29 +74,29 @@ export function RaceResultsModal({
         </div>
 
         {/* Character Breakdown */}
-        <div className="rounded-xl border border-border bg-secondary/40 p-4 flex justify-between items-center text-xs font-mono">
+        <div className="rounded-xl border border-[#E5E7EB] bg-slate-100 p-4 flex justify-between items-center text-xs font-mono">
           <div>
-            <span className="text-muted-foreground">Total Typed: </span>
-            <span className="font-bold text-foreground">{rawMetrics.totalCharsTyped}</span>
+            <span className="text-[#64748B]">Total Typed: </span>
+            <span className="font-bold text-[#111827]">{rawMetrics.totalCharsTyped}</span>
           </div>
           <div>
-            <span className="text-muted-foreground">Correct: </span>
-            <span className="font-bold text-success">{rawMetrics.correctCharsTyped}</span>
+            <span className="text-[#64748B]">Correct: </span>
+            <span className="font-bold text-[#D68910]">{rawMetrics.correctCharsTyped}</span>
           </div>
           <div>
-            <span className="text-muted-foreground">Incorrect: </span>
-            <span className="font-bold text-destructive">{rawMetrics.incorrectCharsTyped}</span>
+            <span className="text-[#64748B]">Incorrect: </span>
+            <span className="font-bold text-[#DC2626]">{rawMetrics.incorrectCharsTyped}</span>
           </div>
         </div>
 
         {/* Weak Area Insights if present */}
         {feedback.weakAreas.length > 0 && (
-          <div className="flex flex-col gap-2 rounded-xl border border-warning/30 bg-warning/5 p-4">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-warning">
+          <div className="flex flex-col gap-2 rounded-xl border border-[#F39C12]/40 bg-[#FEF3C7]/40 p-4">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#D68910]">
               <AlertCircle className="h-4 w-4" />
               <span>Performance Insights</span>
             </div>
-            <ul className="list-disc list-inside text-xs text-muted-foreground space-y-1">
+            <ul className="list-disc list-inside text-xs text-[#64748B] space-y-1">
               {feedback.weakAreas.map((tip, idx) => (
                 <li key={idx}>{tip}</li>
               ))}

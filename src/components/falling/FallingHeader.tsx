@@ -33,19 +33,19 @@ export function FallingHeader({
   onRestart,
 }: FallingHeaderProps) {
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-border/80 bg-card/90 p-4 sm:p-5 shadow-sm backdrop-blur-md">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5 shadow-sm">
       {/* Title & Adaptive Level Info */}
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2 flex-wrap">
-          <h1 className="text-lg sm:text-xl font-extrabold tracking-tight text-foreground">Falling Words</h1>
+          <h1 className="text-lg sm:text-xl font-extrabold tracking-tight text-[#111827]">Falling Words</h1>
           <Badge variant={status === 'PLAYING' ? 'success' : status === 'PAUSED' ? 'warning' : 'primary'}>
             {status}
           </Badge>
-          <Badge variant="outline" className="text-accent border-accent/40 font-mono text-xs">
+          <Badge variant="outline" className="text-[#D68910] border-[#F39C12]/40 bg-amber-50 font-mono text-xs">
             Adaptive Lvl {adaptiveLevel}
           </Badge>
         </div>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-[#64748B]">
           Type the falling words before they hit the danger zone. Difficulty adapts smoothly.
         </p>
       </div>
@@ -53,14 +53,14 @@ export function FallingHeader({
       {/* Live Stats Bar */}
       <div className="flex items-center gap-2 sm:gap-4 flex-wrap justify-between sm:justify-start">
         {/* Score Display */}
-        <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm font-bold text-foreground bg-secondary/80 px-2.5 sm:px-3 py-1.5 rounded-lg border border-border">
-          <Trophy className="h-3.5 w-3.5 text-warning" />
+        <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm font-bold text-[#111827] bg-slate-100 px-2.5 sm:px-3 py-1.5 rounded-lg border border-slate-200">
+          <Trophy className="h-3.5 w-3.5 text-amber-500" />
           <span>{score} pts</span>
         </div>
 
         {/* Live WPM */}
-        <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm font-bold text-foreground bg-secondary/80 px-2.5 sm:px-3 py-1.5 rounded-lg border border-border">
-          <Zap className="h-3.5 w-3.5 text-primary" />
+        <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm font-bold text-[#111827] bg-slate-100 px-2.5 sm:px-3 py-1.5 rounded-lg border border-slate-200">
+          <Zap className="h-3.5 w-3.5 text-[#F39C12]" />
           <span>{wpm} WPM</span>
         </div>
 

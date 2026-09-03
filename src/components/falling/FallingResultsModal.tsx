@@ -38,13 +38,13 @@ export function FallingResultsModal({
     <Modal isOpen={isOpen} title="Game Over" className="max-w-xl">
       <div className="flex flex-col gap-6">
         {/* Banner Message */}
-        <div className="rounded-xl border border-warning/30 bg-warning/10 p-4 flex items-center gap-3">
-          <Flame className="h-8 w-8 text-warning shrink-0" />
+        <div className="rounded-xl border border-[#F39C12]/40 bg-[#FEF3C7]/40 p-4 flex items-center gap-3">
+          <Flame className="h-8 w-8 text-[#F39C12] shrink-0" />
           <div className="flex flex-col">
-            <h3 className="font-bold text-base text-foreground">
+            <h3 className="font-bold text-base text-[#111827]">
               {isNewHighScore ? '🏆 New High Score!' : 'Game Over!'}
             </h3>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-[#64748B]">
               You reached Adaptive Level {adaptiveLevel} and destroyed {wordsCleared} words.
             </p>
           </div>
@@ -79,18 +79,18 @@ export function FallingResultsModal({
         </div>
 
         {/* Summary Details */}
-        <div className="rounded-xl border border-border bg-secondary/40 p-4 flex justify-between items-center text-xs font-mono">
+        <div className="rounded-xl border border-[#E5E7EB] bg-slate-100 p-4 flex justify-between items-center text-xs font-mono">
           <div>
-            <span className="text-muted-foreground">Words Missed: </span>
-            <span className="font-bold text-destructive">{wordsMissed}</span>
+            <span className="text-[#64748B]">Words Missed: </span>
+            <span className="font-bold text-[#DC2626]">{wordsMissed}</span>
           </div>
           <div>
-            <span className="text-muted-foreground">Session Duration: </span>
-            <span className="font-bold text-foreground">{calculatedMetrics.durationSeconds}s</span>
+            <span className="text-[#64748B]">Session Duration: </span>
+            <span className="font-bold text-[#111827]">{calculatedMetrics.durationSeconds}s</span>
           </div>
           <div>
-            <span className="text-muted-foreground">Previous Best Score: </span>
-            <span className="font-bold text-warning">{stats.bestFallingScore}</span>
+            <span className="text-[#64748B]">Previous Best Score: </span>
+            <span className="font-bold text-[#D68910]">{stats.bestFallingScore}</span>
           </div>
         </div>
 

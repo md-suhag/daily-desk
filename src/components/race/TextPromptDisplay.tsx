@@ -46,18 +46,18 @@ export function TextPromptDisplay({
       ref={containerRef}
       onClick={status === 'IDLE' ? onStart : undefined}
       className={cn(
-        'relative min-h-[130px] sm:min-h-[150px] max-h-[220px] overflow-y-auto rounded-2xl border bg-card/90 p-4 sm:p-6 shadow-inner font-mono text-base sm:text-xl md:text-2xl leading-relaxed tracking-wide transition-all duration-200 select-none break-words',
-        status === 'IDLE' ? 'cursor-pointer hover:border-primary/50' : '',
-        isFocused ? 'border-primary/60 ring-2 ring-primary/20 glow-primary' : 'border-border'
+        'relative min-h-[130px] sm:min-h-[150px] max-h-[220px] overflow-y-auto rounded-2xl border bg-white p-4 sm:p-6 shadow-sm font-mono text-base sm:text-xl md:text-2xl leading-relaxed tracking-wide transition-all duration-200 select-none break-words',
+        status === 'IDLE' ? 'cursor-pointer hover:border-amber-400' : '',
+        isFocused ? 'border-amber-500 ring-2 ring-amber-500/20' : 'border-border'
       )}
       tabIndex={0}
       aria-label="Typing text prompt"
     >
       {/* Click / Key start banner when IDLE */}
       {status === 'IDLE' && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/85 backdrop-blur-xs p-4 text-center rounded-2xl">
-          <div className="flex items-center gap-2 font-sans text-sm sm:text-base font-bold text-primary">
-            <Play className="h-4 w-4 sm:h-5 sm:w-5" />
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/90 backdrop-blur-xs p-4 text-center rounded-2xl">
+          <div className="flex items-center gap-2 font-sans text-sm sm:text-base font-bold text-[#F39C12]">
+            <Play className="h-4 w-4 sm:h-5 sm:w-5 fill-[#F39C12]" />
             <span>Click prompt or press any key / Enter to Start Race</span>
           </div>
         </div>
@@ -74,11 +74,11 @@ export function TextPromptDisplay({
             key={idx}
             ref={isCurrent ? activeCharRef : null}
             className={cn(
-              'relative rounded transition-colors duration-100',
-              isCorrect && 'text-success font-semibold',
-              isIncorrect && 'bg-destructive/30 text-destructive-foreground font-semibold border-b-2 border-destructive',
-              !isTyped && !isCurrent && 'text-muted-foreground/60',
-              isCurrent && 'text-foreground font-bold bg-primary/20 ring-1 ring-primary'
+              'relative rounded px-0.5 transition-colors duration-100',
+              isCorrect && 'text-[#D68910] font-extrabold',
+              isIncorrect && 'bg-red-100 text-red-600 font-bold border-b-2 border-red-500',
+              !isTyped && !isCurrent && 'text-slate-400',
+              isCurrent && 'text-slate-900 font-extrabold bg-amber-100 ring-1 ring-amber-400'
             )}
           >
             {/* Visual indicator for space errors */}
@@ -86,7 +86,7 @@ export function TextPromptDisplay({
 
             {/* Caret line for active character */}
             {isCurrent && (
-              <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary animate-caret" />
+              <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#F39C12] animate-caret" />
             )}
           </span>
         );
