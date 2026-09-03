@@ -137,8 +137,8 @@ export default function RootLayout({
               </div>
 
               {/* Developer Portfolio / Profile Link with Love Icon */}
-              <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 bg-amber-500/10 px-4 py-2 rounded-2xl border border-[#F39C12]/30 shadow-xs text-xs">
-                <span className="flex items-center gap-1">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 bg-amber-500/10 px-4 py-2.5 rounded-2xl border border-[#F39C12]/30 shadow-xs text-xs text-center">
+                <span className="flex items-center gap-1 text-muted-foreground">
                   <span>Developed with</span>
                   <Heart className="h-3.5 w-3.5 fill-red-500 text-red-500 animate-pulse" />
                   <span>by</span>
@@ -147,16 +147,16 @@ export default function RootLayout({
                   href="https://www.facebook.com/mdas.suhag"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-bold text-foreground hover:text-[#F39C12] transition-colors flex items-center gap-1.5 group"
+                  className="font-bold text-foreground hover:text-[#F39C12] transition-colors flex flex-wrap items-center justify-center gap-1.5 group"
                   title="Md Abdus Salam Suhag - Software Developer"
                 >
-                  <span className="underline decoration-[#F39C12]/60 underline-offset-2">
+                  <span className="whitespace-nowrap underline decoration-[#F39C12]/60 underline-offset-2">
                     Md Abdus Salam Suhag
                   </span>
-                  <span className="text-[10px] bg-[#F39C12] text-white px-2 py-0.5 rounded-full font-bold">
+                  <span className="text-[10px] bg-[#F39C12] text-white px-2 py-0.5 rounded-full font-bold whitespace-nowrap">
                     Software Developer
                   </span>
-                  <ExternalLink className="h-3.5 w-3.5 text-[#F39C12] group-hover:translate-x-0.5 transition-transform" />
+                  <ExternalLink className="h-3.5 w-3.5 text-[#F39C12] group-hover:translate-x-0.5 transition-transform shrink-0" />
                 </a>
               </div>
             </div>
