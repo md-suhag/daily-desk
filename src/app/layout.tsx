@@ -1,23 +1,93 @@
-import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
-import './globals.css';
-import { Navbar } from '@/components/common/Navbar';
-import { Code2, Heart, ExternalLink } from 'lucide-react';
+import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
+import "./globals.css";
+import { Navbar } from "@/components/common/Navbar";
+import { Heart, ExternalLink } from "lucide-react";
 
 const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
+  subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
+  subsets: ["latin"],
+  variable: "--font-mono",
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://dailydesk.vercel.app";
+
 export const metadata: Metadata = {
-  title: 'DailyDesk | Ultimate Daily Productivity & Skills Platform',
-  description: 'DailyDesk is an all-in-one productivity suite for daily skills, career building, typing mastery, and performance utilities.',
-  keywords: ['DailyDesk', 'productivity tools', 'typing speed', 'career tools', 'developer tools', 'nextjs'],
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "DailyDesk | Ultimate Daily Productivity & Typing Skills Platform",
+    template: "%s | DailyDesk",
+  },
+  description:
+    "DailyDesk is a next-gen productivity and skill trainer featuring sentence speed racing, arcade falling words, real-time WPM metrics, and adaptive difficulty scaling.",
+  keywords: [
+    "DailyDesk",
+    "typing speed test",
+    "typing race",
+    "falling words game",
+    "WPM calculator",
+    "typing practice",
+    "touch typing trainer",
+    "Md Abdus Salam Suhag",
+    "productivity tools",
+    "developer tools",
+  ],
+  authors: [
+    {
+      name: "Md Abdus Salam Suhag",
+      url: "https://www.facebook.com/mdas.suhag",
+    },
+  ],
+  creator: "Md Abdus Salam Suhag",
+  publisher: "DailyDesk Platform",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    title: "DailyDesk | Level Up Your Typing Speed & Accuracy",
+    description:
+      "Forge flawless muscle memory through sentence speed racing and arcade falling words with millisecond real-time telemetry.",
+    siteName: "DailyDesk",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "DailyDesk | Level Up Your Typing Speed & Accuracy",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DailyDesk | Level Up Your Typing Speed & Accuracy",
+    description:
+      "Forge flawless muscle memory through sentence speed racing and arcade falling words with millisecond real-time telemetry.",
+    creator: "@mdas_suhag",
+    images: ["/og-image.png"],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#F39C12",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -32,10 +102,10 @@ export default function RootLayout({
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
           {/* Top Left Warm Amber Glow */}
           <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-amber-500/10 blur-[140px] animate-float-slow" />
-          
+
           {/* Top Right Light Orange Glow */}
           <div className="absolute top-1/4 -right-32 w-96 h-96 rounded-full bg-orange-400/10 blur-[150px] animate-float-reverse" />
-          
+
           {/* Subtle Clean Grid Pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f080_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f080_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,#000_70%,transparent_100%)] opacity-80" />
         </div>
@@ -56,7 +126,9 @@ export default function RootLayout({
               <span className="hidden sm:inline-block text-slate-300">•</span>
               <span>Designed for daily productivity & skill growth.</span>
               <span className="hidden sm:inline-block text-slate-300">•</span>
-              <span className="text-slate-400">© {new Date().getFullYear()}</span>
+              <span className="text-slate-400">
+                © {new Date().getFullYear()}
+              </span>
             </div>
 
             {/* Developer Portfolio / Profile Link with Love Icon */}
