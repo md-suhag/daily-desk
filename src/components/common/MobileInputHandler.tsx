@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useState, useImperativeHandle, forwardRef } from 'react';
+import React, { useRef, useEffect, useState, useImperativeHandle, forwardRef, useCallback } from 'react';
 import { Keyboard, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { GameStatus } from '@/types/game';
@@ -41,6 +41,8 @@ export const MobileInputHandler = forwardRef<MobileInputHandlerRef, MobileInputH
     const [isFocused, setIsFocused] = useState(false);
     const [isTouchDevice, setIsTouchDevice] = useState(false);
 
+    const lastBackspaceTimeRef = useRef<number>(0);
+
     // Detect if device supports touch
     useEffect(() => {
       if (typeof window !== 'undefined') {
@@ -75,12 +77,20 @@ export const MobileInputHandler = forwardRef<MobileInputHandlerRef, MobileInputH
     const handleFocus = () => setIsFocused(true);
     const handleBlur = () => setIsFocused(false);
 
+    const triggerBackspaceDeduplicated = useCallback(() => {
+      const now = performance.now();
+      if (now - lastBackspaceTimeRef.current > 80) {
+        lastBackspaceTimeRef.current = now;
+        onBackspace();
+      }
+    }, [onBackspace]);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
 
       if (value === '') {
         // Zero-width space was deleted via Backspace on soft keyboard
-        onBackspace();
+        triggerBackspaceDeduplicated();
       } else {
         // Strip zero-width space to get new typed characters
         const cleaned = value.replaceAll(DUMMY_CHAR, '');
@@ -99,11 +109,22 @@ export const MobileInputHandler = forwardRef<MobileInputHandlerRef, MobileInputH
       if (e.ctrlKey || e.altKey || e.metaKey) return;
 
       if (e.key === 'Backspace') {
-        onBackspace();
+        e.preventDefault();
+        e.stopPropagation();
+        triggerBackspaceDeduplicated();
       } else if (e.key === 'Enter') {
+        e.preventDefault();
+        e.stopPropagation();
         onEnter?.();
       } else if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
         onEscape?.();
+      } else if (e.key.length === 1) {
+        // Prevent default native text insertion into input element to avoid duplicate onChange events on physical keyboards
+        e.preventDefault();
+        e.stopPropagation();
+        onTypeChar(e.key);
       }
     };
 

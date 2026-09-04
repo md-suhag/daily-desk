@@ -225,6 +225,7 @@ export function useTypingRace(initialDifficulty: DifficultyLevel = 'EASY') {
   const [state, dispatch] = useReducer(raceReducer, initialDifficulty, createInitialState);
   const countdownTimerRef = useRef<NodeJS.Timeout | null>(null);
   const metricsTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const lastBackspaceTimeRef = useRef<number>(0);
 
   // Countdown handler
   useEffect(() => {
@@ -258,6 +259,16 @@ export function useTypingRace(initialDifficulty: DifficultyLevel = 'EASY') {
     };
   }, [state.status]);
 
+  const backspace = useCallback(() => {
+    if (state.status === 'PLAYING') {
+      const now = performance.now();
+      if (now - lastBackspaceTimeRef.current > 80) {
+        lastBackspaceTimeRef.current = now;
+        dispatch({ type: 'BACKSPACE' });
+      }
+    }
+  }, [state.status]);
+
   // Global Keyboard listener
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -282,7 +293,7 @@ export function useTypingRace(initialDifficulty: DifficultyLevel = 'EASY') {
 
       if (e.key === 'Backspace') {
         e.preventDefault();
-        dispatch({ type: 'BACKSPACE' });
+        backspace();
         return;
       }
 
@@ -301,7 +312,7 @@ export function useTypingRace(initialDifficulty: DifficultyLevel = 'EASY') {
         });
       }
     },
-    [state.status]
+    [state.status, backspace]
   );
 
   useEffect(() => {
@@ -330,12 +341,6 @@ export function useTypingRace(initialDifficulty: DifficultyLevel = 'EASY') {
     },
     [state.status]
   );
-
-  const backspace = useCallback(() => {
-    if (state.status === 'PLAYING') {
-      dispatch({ type: 'BACKSPACE' });
-    }
-  }, [state.status]);
 
   const progressPercentage = Math.min(
     100,
