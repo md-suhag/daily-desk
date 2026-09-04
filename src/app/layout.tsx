@@ -20,6 +20,11 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
   title: {
     default: "DailyDesk | Ultimate Daily Productivity & Typing Skills Platform",
     template: "%s | DailyDesk",
