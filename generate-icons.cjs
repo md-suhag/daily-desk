@@ -36,29 +36,57 @@ function makeChunk(type, data) {
   return buf;
 }
 
-// Generate PNG Icon matching the exact Navbar Monitor & Keyboard Logo
+// Generate PNG Icon mathematically matching the exact Navbar Monitor & Keyboard SVG Logo
 function generatePng(size) {
   const width = size;
   const height = size;
   const rowSize = 1 + width * 4;
   const rawData = Buffer.alloc(height * rowSize);
 
-  const cornerRadius = width * 0.22; // Squircle corner radius for modern app icon
-  const strokeWidth = Math.max(2, Math.round(width * 0.045)); // Scale stroke width
+  const cornerRadius = width * 0.22; // Squircle corner radius
+  const innerBorderInset = width * 0.04;
+  const innerBorderWidth = width * 0.015;
 
-  // Helper for stroke distance check
-  function isNearSegment(px, py, x1, y1, x2, y2, maxDist) {
-    const l2 = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
-    if (l2 === 0) {
-      const d = Math.hypot(px - x1, py - y1);
-      return d <= maxDist;
-    }
-    let t = ((px - x1) * (x2 - x1) + (py - y1) * (y2 - y1)) / l2;
+  const emblemPadding = width * 0.15625; // 80/512 padding ratio
+  const emblemScale = (width - 2 * emblemPadding) / 24;
+
+  // Monitor frame rounded rect: <rect x="3" y="4" width="18" height="12" rx="2.5" />
+  const rectCx = 12;
+  const rectCy = 10;
+  const rectHwCore = 9 - 2.5; // 6.5
+  const rectHhCore = 6 - 2.5; // 3.5
+  const rectRx = 2.5;
+  const strokeHw = 2.2 / 2; // 1.1 in 24x24 stroke units
+
+  // Line segments in 24x24 space (round line caps)
+  const segments = [
+    { x1: 8, y1: 9, x2: 16, y2: 9 },   // Keyboard top row
+    { x1: 10, y1: 12, x2: 14, y2: 12 }, // Keyboard bottom row
+    { x1: 12, y1: 16, x2: 12, y2: 20 }, // Stand neck
+    { x1: 7, y1: 20, x2: 17, y2: 20 },  // Stand base
+  ];
+
+  function distToSegment(px, py, x1, y1, x2, y2) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const l2 = dx * dx + dy * dy;
+    if (l2 === 0) return Math.hypot(px - x1, py - y1);
+    let t = ((px - x1) * dx + (py - y1) * dy) / l2;
     t = Math.max(0, Math.min(1, t));
-    const projX = x1 + t * (x2 - x1);
-    const projY = y1 + t * (y2 - y1);
-    return Math.hypot(px - projX, py - projY) <= maxDist;
+    const projX = x1 + t * dx;
+    const projY = y1 + t * dy;
+    return Math.hypot(px - projX, py - projY);
   }
+
+  function distToRoundedRectStroke(nx, ny) {
+    const qx = Math.max(Math.abs(nx - rectCx) - rectHwCore, 0);
+    const qy = Math.max(Math.abs(ny - rectCy) - rectHhCore, 0);
+    const distToCenterCurve = Math.hypot(qx, qy);
+    return Math.abs(distToCenterCurve - rectRx);
+  }
+
+  // Anti-aliasing feathering width in 24x24 space (~1.2 pixels in canvas space)
+  const feather24 = (1.2 * 24) / (width - 2 * emblemPadding);
 
   for (let y = 0; y < height; y++) {
     const rowOffset = y * rowSize;
@@ -67,20 +95,15 @@ function generatePng(size) {
     for (let x = 0; x < width; x++) {
       const pxOffset = rowOffset + 1 + x * 4;
 
-      // Squircle bounds check
-      let inBounds = true;
-      if (x < cornerRadius && y < cornerRadius) {
-        inBounds = Math.hypot(x - cornerRadius, y - cornerRadius) <= cornerRadius;
-      } else if (x > width - cornerRadius && y < cornerRadius) {
-        inBounds = Math.hypot(x - (width - cornerRadius), y - cornerRadius) <= cornerRadius;
-      } else if (x < cornerRadius && y > height - cornerRadius) {
-        inBounds = Math.hypot(x - cornerRadius, y - (height - cornerRadius)) <= cornerRadius;
-      } else if (x > width - cornerRadius && y > height - cornerRadius) {
-        inBounds = Math.hypot(x - (width - cornerRadius), y - (height - cornerRadius)) <= cornerRadius;
-      }
+      // 1. Outer Squircle bounds check
+      const sqx = Math.max(Math.abs(x + 0.5 - width / 2) - (width / 2 - cornerRadius), 0);
+      const sqy = Math.max(Math.abs(y + 0.5 - height / 2) - (height / 2 - cornerRadius), 0);
+      const distSquircle = Math.hypot(sqx, sqy) - cornerRadius;
 
-      if (!inBounds) {
-        // Transparent pixel outside squircle
+      // Anti-aliased outer squircle mask alpha (0.0 to 1.0)
+      const squircleAlpha = Math.max(0, Math.min(1, 0.5 - distSquircle / 1.2));
+
+      if (squircleAlpha <= 0) {
         rawData[pxOffset] = 0;
         rawData[pxOffset + 1] = 0;
         rawData[pxOffset + 2] = 0;
@@ -90,66 +113,42 @@ function generatePng(size) {
 
       // Background Gradient: #F39C12 (top-left) to #E67E22 to #D68910 (bottom-right)
       const gradFactor = (x + y) / (width + height);
-      let r = Math.floor(243 - gradFactor * 29); // 243 -> 214 (#D68910)
-      let g = Math.floor(156 - gradFactor * 19); // 156 -> 137
-      let b = Math.floor(18 - gradFactor * 2);   // 18 -> 16
-      let a = 255;
+      let r = Math.round(243 - gradFactor * 29); // 243 -> 214
+      let g = Math.round(156 - gradFactor * 19); // 156 -> 137
+      let b = Math.round(18 - gradFactor * 2);   // 18 -> 16
+      let a = Math.round(squircleAlpha * 255);
 
-      // Inner subtle glow border
-      const borderPadding = width * 0.04;
-      const isInnerBorder =
-        (x >= borderPadding && x <= borderPadding + 2) ||
-        (x <= width - borderPadding && x >= width - borderPadding - 2) ||
-        (y >= borderPadding && y <= borderPadding + 2) ||
-        (y <= height - borderPadding && y >= height - borderPadding - 2);
-
-      if (isInnerBorder) {
-        r = Math.min(255, r + 30);
-        g = Math.min(255, g + 30);
-        b = Math.min(255, b + 30);
+      // 2. Inner border glow
+      const distInnerBorder = Math.abs(distSquircle + innerBorderInset);
+      if (distInnerBorder <= innerBorderWidth / 2 + 0.6) {
+        const borderAlpha = Math.max(0, Math.min(1, 0.5 + (innerBorderWidth / 2 - distInnerBorder) / 0.6)) * 0.25;
+        r = Math.round(r * (1 - borderAlpha) + 255 * borderAlpha);
+        g = Math.round(g * (1 - borderAlpha) + 255 * borderAlpha);
+        b = Math.round(b * (1 - borderAlpha) + 255 * borderAlpha);
       }
 
-      // Render Navbar Monitor & Keyboard Icon inside 24x24 relative coordinate system
-      const nx = (x / width) * 24;
-      const ny = (y / height) * 24;
-      const hw = strokeWidth / (width / 24) / 2; // Half stroke width in 24x24 scale
+      // 3. Monitor & Keyboard Emblem in 24x24 relative coords
+      const nx = (x + 0.5 - emblemPadding) / emblemScale;
+      const ny = (y + 0.5 - emblemPadding) / emblemScale;
 
-      let isWhiteEmblem = false;
+      if (nx >= -1 && nx <= 25 && ny >= -1 && ny <= 25) {
+        let minEmblemDist = distToRoundedRectStroke(nx, ny);
 
-      // 1. Monitor Frame: rect x=3, y=4, width=18, height=12, rx=2.5
-      const rectLeft = 3, rectTop = 4, rectRight = 21, rectBottom = 16;
-      // Outer rect stroke
-      if (
-        (nx >= rectLeft - hw && nx <= rectRight + hw && ny >= rectTop - hw && ny <= rectBottom + hw) &&
-        !(nx > rectLeft + hw && nx < rectRight - hw && ny > rectTop + hw && ny < rectBottom - hw)
-      ) {
-        isWhiteEmblem = true;
-      }
+        for (let i = 0; i < segments.length; i++) {
+          const seg = segments[i];
+          const dSeg = distToSegment(nx, ny, seg.x1, seg.y1, seg.x2, seg.y2);
+          if (dSeg < minEmblemDist) {
+            minEmblemDist = dSeg;
+          }
+        }
 
-      // 2. Stand neck: M12 16v4 (x: 12, y: 16 to 20)
-      if (isNearSegment(nx, ny, 12, 16, 12, 20, hw)) {
-        isWhiteEmblem = true;
-      }
+        const emblemAlpha = Math.max(0, Math.min(1, 0.5 + (strokeHw - minEmblemDist) / feather24));
 
-      // 3. Stand base: M7 20h10 (x: 7 to 17, y: 20)
-      if (isNearSegment(nx, ny, 7, 20, 17, 20, hw)) {
-        isWhiteEmblem = true;
-      }
-
-      // 4. Keyboard top row line: M8 9h8 (x: 8 to 16, y: 9)
-      if (isNearSegment(nx, ny, 8, 9, 16, 9, hw)) {
-        isWhiteEmblem = true;
-      }
-
-      // 5. Keyboard bottom row line: M10 12h4 (x: 10 to 14, y: 12)
-      if (isNearSegment(nx, ny, 10, 12, 14, 12, hw)) {
-        isWhiteEmblem = true;
-      }
-
-      if (isWhiteEmblem) {
-        r = 255;
-        g = 255;
-        b = 255;
+        if (emblemAlpha > 0) {
+          r = Math.round(r * (1 - emblemAlpha) + 255 * emblemAlpha);
+          g = Math.round(g * (1 - emblemAlpha) + 255 * emblemAlpha);
+          b = Math.round(b * (1 - emblemAlpha) + 255 * emblemAlpha);
+        }
       }
 
       rawData[pxOffset] = r;
@@ -177,6 +176,24 @@ function generatePng(size) {
   return Buffer.concat([sig, ihdrChunk, idatChunk, iendChunk]);
 }
 
+function makeIcoFromPng(pngBuffer, width, height) {
+  const header = Buffer.alloc(6 + 16);
+  header.writeUInt16LE(0, 0); // Reserved
+  header.writeUInt16LE(1, 2); // Image type ICO
+  header.writeUInt16LE(1, 4); // 1 image
+
+  header.writeUInt8(width >= 256 ? 0 : width, 6);
+  header.writeUInt8(height >= 256 ? 0 : height, 7);
+  header.writeUInt8(0, 8); // Color count
+  header.writeUInt8(0, 9); // Reserved
+  header.writeUInt16LE(1, 10); // Color planes
+  header.writeUInt16LE(32, 12); // Bits per pixel
+  header.writeUInt32LE(pngBuffer.length, 14); // PNG size
+  header.writeUInt32LE(22, 18); // Offset to PNG data
+
+  return Buffer.concat([header, pngBuffer]);
+}
+
 const publicDir = path.join(__dirname, 'public');
 
 try {
@@ -190,7 +207,16 @@ try {
   const icon512 = generatePng(512);
   fs.writeFileSync(path.join(publicDir, 'icon-512.png'), icon512);
 
-  console.log('✅ PWA Icons matching Navbar Monitor & Keyboard Logo generated in public/');
+  const appleIcon = generatePng(180);
+  fs.writeFileSync(path.join(publicDir, 'apple-icon.png'), appleIcon);
+  fs.writeFileSync(path.join(publicDir, 'apple-touch-icon.png'), appleIcon);
+
+  const icon64 = generatePng(64);
+  const icoFile = makeIcoFromPng(icon64, 64, 64);
+  fs.writeFileSync(path.join(publicDir, 'favicon.ico'), icoFile);
+
+  console.log('✅ Ultra-crisp PWA & Favicon Icons matching Navbar Monitor & Keyboard Logo generated in public/');
 } catch (err) {
   console.error('Failed to generate PWA icons:', err);
 }
+
