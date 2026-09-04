@@ -34,7 +34,7 @@ export function Navbar() {
           <div className="relative flex h-8 w-8 xs:h-9 xs:w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#F39C12] via-[#E67E22] to-[#D68910] text-white shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform duration-200">
             <div className="absolute inset-0.5 rounded-[10px] border border-white/25 pointer-events-none" />
             <svg
-              className="h-4.5 w-4.5 xs:h-5 xs:w-5 sm:h-5.5 sm:w-5.5 fill-none stroke-current stroke-[2.2] text-white"
+              className="h-4 w-4 xs:h-4.5 xs:w-4.5 sm:h-5 sm:w-5 fill-none stroke-current stroke-[2.2] text-white"
               viewBox="0 0 24 24"
               strokeLinecap="round"
               strokeLinejoin="round"

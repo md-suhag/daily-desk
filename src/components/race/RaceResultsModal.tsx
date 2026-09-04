@@ -24,8 +24,19 @@ export function RaceResultsModal({
   stats,
   onRestart,
 }: RaceResultsModalProps) {
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        buttonRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
   return (
-    <Modal isOpen={isOpen} title="Race Finished!" className="max-w-xl">
+    <Modal isOpen={isOpen} onEnter={onRestart} title="Race Finished!" className="max-w-xl">
       <div className="flex flex-col gap-6">
         {/* Banner Message */}
         <div className="rounded-xl border border-[#F39C12]/40 bg-amber-500/10 p-4 flex items-center gap-3">
@@ -106,7 +117,14 @@ export function RaceResultsModal({
 
         {/* Actions */}
         <div className="flex items-center justify-end gap-3 pt-2">
-          <Button onClick={onRestart} variant="primary" size="lg" glow className="w-full bg-[#F39C12] hover:bg-[#D68910] text-white font-bold">
+          <Button
+            ref={buttonRef}
+            onClick={onRestart}
+            variant="primary"
+            size="lg"
+            glow
+            className="w-full bg-[#F39C12] hover:bg-[#D68910] text-white font-bold"
+          >
             <RotateCcw className="h-5 w-5" /> Play Again (Enter)
           </Button>
         </div>

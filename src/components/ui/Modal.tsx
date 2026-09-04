@@ -6,23 +6,28 @@ import { cn } from '@/lib/utils';
 export interface ModalProps {
   isOpen: boolean;
   onClose?: () => void;
+  onEnter?: () => void;
   title?: string;
   children: React.ReactNode;
   className?: string;
 }
 
-export function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
+export function Modal({ isOpen, onClose, onEnter, title, children, className }: ModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && onClose) {
         onClose();
+      } else if ((e.key === 'Enter' || e.key === 'NumpadEnter') && onEnter) {
+        e.preventDefault();
+        e.stopPropagation();
+        onEnter();
       }
     };
     if (isOpen) {
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, onEnter]);
 
   if (!isOpen) return null;
 
