@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/common/Navbar";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { PwaRegister } from "@/components/common/PwaRegister";
 import { Heart, ExternalLink } from "lucide-react";
 
 const inter = Inter({
@@ -20,6 +21,15 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "DailyDesk",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
@@ -148,6 +158,7 @@ export default function RootLayout({
       </head>
       <body className="bg-background text-foreground antialiased min-h-screen flex flex-col selection:bg-[#F39C12]/20 selection:text-[#F39C12] relative overflow-x-hidden">
         <ThemeProvider>
+          <PwaRegister />
           {/* Soft Warm Ambient Background Layers */}
           <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
             {/* Top Left Warm Amber Glow */}
