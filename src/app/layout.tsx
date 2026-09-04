@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Md Abdus Salam Suhag",
-      url: "https://www.facebook.com/mdas.suhag",
+      url: "https://mdsuhag.vercel.app",
     },
   ],
   creator: "Md Abdus Salam Suhag",
@@ -117,6 +117,29 @@ export default function RootLayout({
             `,
           }}
         />
+
+        {/* JSON-LD Author & Platform Structured Data for Search Engines */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Md Abdus Salam Suhag",
+              url: "https://mdsuhag.vercel.app",
+              sameAs: [
+                "https://www.linkedin.com/in/suhag102",
+                "https://mdsuhag.vercel.app",
+                "https://www.facebook.com/mdas.suhag",
+              ],
+              jobTitle: "Software Engineer",
+              worksFor: {
+                "@type": "Organization",
+                name: "DailyDesk",
+              },
+            }),
+          }}
+        />
       </head>
       <body className="bg-background text-foreground antialiased min-h-screen flex flex-col selection:bg-[#F39C12]/20 selection:text-[#F39C12] relative overflow-x-hidden">
         <ThemeProvider>
@@ -145,9 +168,13 @@ export default function RootLayout({
                 <span className="font-extrabold text-foreground text-sm sm:text-base">
                   Daily<span className="text-[#F39C12]">Desk</span> Platform
                 </span>
-                <span className="hidden sm:inline-block text-muted-foreground/40">•</span>
+                <span className="hidden sm:inline-block text-muted-foreground/40">
+                  •
+                </span>
                 <span>Designed for daily productivity & skill growth.</span>
-                <span className="hidden sm:inline-block text-muted-foreground/40">•</span>
+                <span className="hidden sm:inline-block text-muted-foreground/40">
+                  •
+                </span>
                 <span className="text-muted-foreground/60">
                   © {new Date().getFullYear()}
                 </span>
@@ -171,7 +198,7 @@ export default function RootLayout({
                     Md Abdus Salam Suhag
                   </span>
                   <span className="text-[10px] bg-[#F39C12] text-white px-2 py-0.5 rounded-full font-bold whitespace-nowrap">
-                    Software Developer
+                    Software Engineer
                   </span>
                   <ExternalLink className="h-3.5 w-3.5 text-[#F39C12] group-hover:translate-x-0.5 transition-transform shrink-0" />
                 </a>
