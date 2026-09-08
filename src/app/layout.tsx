@@ -6,6 +6,8 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { PwaRegister } from "@/components/common/PwaRegister";
 import { Heart, ExternalLink } from "lucide-react";
 
+import { getSiteUrl } from "@/lib/siteConfig";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -16,11 +18,13 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://daily-desk-app.vercel.app";
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,

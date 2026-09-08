@@ -1,14 +1,20 @@
 import type { Metadata } from 'next';
+import { getSiteUrl } from '@/lib/siteConfig';
+
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   title: 'Arcade Falling Words - Interactive Typing Skill Game',
   description:
     'Improve your typing reaction time and muscle memory in an arcade falling words challenge with adaptive difficulty scaling on DailyDesk.',
+  alternates: {
+    canonical: '/falling',
+  },
   openGraph: {
     title: 'Arcade Falling Words - Interactive Typing Game | DailyDesk',
     description:
       'Improve your typing reaction time and muscle memory in an arcade falling words challenge with adaptive difficulty scaling.',
-    url: 'https://daily-desk-app.vercel.app/falling',
+    url: `${siteUrl}/falling`,
     siteName: 'DailyDesk',
     images: [
       {

@@ -1,14 +1,20 @@
 import type { Metadata } from 'next';
+import { getSiteUrl } from '@/lib/siteConfig';
+
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   title: 'Typing Speed Race - Real-Time WPM Test & Sentence Trainer',
   description:
     'Challenge your typing speed and accuracy with real-time WPM metrics, error tracking, and sentence speed racing on DailyDesk.',
+  alternates: {
+    canonical: '/race',
+  },
   openGraph: {
     title: 'Typing Speed Race - Real-Time WPM Test | DailyDesk',
     description:
       'Challenge your typing speed and accuracy with real-time WPM metrics, error tracking, and sentence speed racing.',
-    url: 'https://daily-desk-app.vercel.app/race',
+    url: `${siteUrl}/race`,
     siteName: 'DailyDesk',
     images: [
       {
